@@ -16,7 +16,6 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
     "rootDirs": ["src", "tests"],
     "baseUrl": "src",
