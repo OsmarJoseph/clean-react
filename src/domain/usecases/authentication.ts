@@ -9,5 +9,5 @@ export namespace Authentication {
     email: string
     password: string
   }
-  export type Result = AccountModel
+  export type Result = Promise<AccountModel>
 }
