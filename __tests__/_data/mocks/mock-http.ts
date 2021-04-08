@@ -3,7 +3,7 @@ import { HttpPostClient, HttpResponse, HttpStatusCode } from '@/data/protocols'
 export class HttpPostClientSpy<Constructor extends HttpPostClient.Constructor> implements HttpPostClient<Constructor> {
   params: HttpPostClient.Params<Constructor['request']>
   response: HttpResponse<Constructor['response']> = {
-    statusCode: HttpStatusCode.unauthorized,
+    statusCode: HttpStatusCode.noContent,
     body: { }
   }
 
