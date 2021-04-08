@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:watch": "yarn test --watchAll",
+    "test:watch": "npm run test -- --watchAll",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage --no-cache"
+    "test:staged": "npm run test -- --findRelatedTests",
+    "test:ci": "npm run test -- --coverage --no-cache"
   },
   "keywords": [],
   "author": "",
