@@ -1,4 +1,4 @@
-import { InvalidCredentialsError } from '@/domain/errors'
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { AuthenticationHttpPostClient, RemoteAuthentication } from '@/data/usecases'
 
@@ -45,5 +45,27 @@ describe('RemoteAuthentication', () => {
     httpPostClientSpy.response.statusCode = HttpStatusCode.unauthorized
     const responsePromise = sut.auth(authenticationParams)
     await expect(responsePromise).rejects.toThrow(new InvalidCredentialsError())
+  })
+
+  test('should throw UnexpectedError if HttpPostClient returns badRequest', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const authenticationParams = mockAuthenticationParams()
+    httpPostClientSpy.response.statusCode = HttpStatusCode.badRequest
+    const responsePromise = sut.auth(authenticationParams)
+    await expect(responsePromise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should throw UnexpectedError if HttpPostClient returns notFound', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const authenticationParams = mockAuthenticationParams()
+    httpPostClientSpy.response.statusCode = HttpStatusCode.notFound
+    const responsePromise = sut.auth(authenticationParams)
+    await expect(responsePromise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should throw UnexpectedError if HttpPostClient returns serverError', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const authenticationParams = mockAuthenticationParams()
+    httpPostClientSpy.response.statusCode = HttpStatusCode.serverError
+    const responsePromise = sut.auth(authenticationParams)
+    await expect(responsePromise).rejects.toThrow(new UnexpectedError())
   })
 })
