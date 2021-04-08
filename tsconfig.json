@@ -17,12 +17,12 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "rootDirs": ["src", "tests"],
+    "rootDirs": ["src", "__tests__"],
     "baseUrl": "src",
     "paths": {
-      "@/tests/*": ["../tests/*"],
+      "@/__tests__/*": ["../__tests__/*"],
       "@/*": ["*"]
     }
   },
-  "include": ["src", "tests"],
+  "include": ["src", "__tests__"],
 }
