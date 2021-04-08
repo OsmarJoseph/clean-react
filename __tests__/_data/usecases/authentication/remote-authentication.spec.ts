@@ -27,6 +27,6 @@ describe('RemoteAuthentication', () => {
   test('should call HttpPostClient with correct url', async () => {
     const { sut, httpPostClientSpy, mockUrl } = makeSut()
     await sut.auth(mockAuthenticationParams())
-    expect(httpPostClientSpy.url).toBe(mockUrl)
+    expect(httpPostClientSpy.params.url).toBe(mockUrl)
   })
 })
