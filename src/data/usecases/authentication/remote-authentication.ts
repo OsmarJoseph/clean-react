@@ -1,7 +1,7 @@
 import { Authentication } from '@/domain/usecases'
 import { HttpPostClient, HttpStatusCode } from '@/data/protocols'
 import { AuthenticationHttpPostClient } from '@/data/usecases'
-import { InvalidCredentialsError } from '@/domain/errors'
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 
 export class RemoteAuthentication implements Authentication {
   constructor (
@@ -14,7 +14,9 @@ export class RemoteAuthentication implements Authentication {
     const httpPesponse = await httpPostClient.post({ url, body: { email, password } })
 
     switch (httpPesponse.statusCode) {
+      case HttpStatusCode.ok: break
       case HttpStatusCode.unauthorized: throw new InvalidCredentialsError()
+      default: throw new UnexpectedError()
     }
 
     return null
