@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky install",
+    "lint-staged": "lint-staged",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:watch": "npm run test -- --watchAll",
     "test:verbose": "jest --passWithNoTests --runInBand",
