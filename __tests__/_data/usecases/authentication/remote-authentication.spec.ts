@@ -2,7 +2,7 @@ import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { AuthenticationHttpPostClient, RemoteAuthentication } from '@/data/usecases'
 
-import { mockAuthenticationParams } from '@/__tests__/_domain/mocks'
+import { mockAccountModel, mockAuthenticationParams } from '@/__tests__/_domain/mocks'
 import { HttpPostClientSpy } from '@/__tests__/_data/mocks'
 
 import faker from 'faker'
@@ -67,5 +67,13 @@ describe('RemoteAuthentication', () => {
     httpPostClientSpy.response.statusCode = HttpStatusCode.serverError
     const responsePromise = sut.auth(authenticationParams)
     await expect(responsePromise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should return an AccountModel if HttpPostClient returns ok', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const authenticationParams = mockAuthenticationParams()
+    const accountModel = mockAccountModel()
+    httpPostClientSpy.response.body = accountModel
+    const account = await sut.auth(authenticationParams)
+    expect(account).toEqual(accountModel)
   })
 })
