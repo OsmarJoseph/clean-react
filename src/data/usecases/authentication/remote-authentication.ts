@@ -9,16 +9,13 @@ export class RemoteAuthentication implements Authentication {
     private readonly httpPostClient: HttpPostClient<AuthenticationHttpPostClient>
   ) {}
 
-  async auth ({ email, password }: Authentication.Params): Authentication.Result {
+  async auth ({ email, password }: Authentication.Params): Promise<Authentication.Result> {
     const { httpPostClient, url } = this
     const httpPesponse = await httpPostClient.post({ url, body: { email, password } })
-
     switch (httpPesponse.statusCode) {
-      case HttpStatusCode.ok: break
+      case HttpStatusCode.ok: return httpPesponse.body
       case HttpStatusCode.unauthorized: throw new InvalidCredentialsError()
       default: throw new UnexpectedError()
     }
-
-    return null
   }
 }
