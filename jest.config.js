@@ -5,9 +5,9 @@ module.exports = {
   ],
   testMatch: ['**/*.spec.ts', '**/*.test.ts'],
   coverageDirectory: 'coverage',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    '.+\\.(ts|tsx)$': 'ts-jest'
   },
   moduleNameMapper: {
     '@/__tests__/(.*)': '<rootDir>/__tests__/$1',

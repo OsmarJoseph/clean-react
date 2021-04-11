@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "es6",
     "lib":[
       "DOM",
       "DOM.Iterable",
@@ -11,12 +11,8 @@
     "moduleResolution": "node",
     "jsx": "react",
     "allowJs": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
     "strict": false,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "noEmit": true,
     "rootDirs": ["src", "__tests__"],
     "baseUrl": "src",
     "paths": {
