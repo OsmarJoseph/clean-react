@@ -1,4 +1,7 @@
-module.exports = {
+import type { Config } from '@jest/types'
+
+const config: Config.InitialOptions = {
+
   roots: ['<rootDir>/__tests__'],
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{ts,tsx}',
@@ -16,3 +19,5 @@ module.exports = {
     '\\.scss$': 'identity-obj-proxy'
   }
 }
+
+export default config

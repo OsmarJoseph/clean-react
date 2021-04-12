@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "lib":[
       "DOM",
       "DOM.Iterable",
       "ESNext",
     ],
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "jsx": "react",
     "allowJs": true,
@@ -20,5 +21,6 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src", "__tests__"],
+  "include": ["src", "__tests__", "./**.ts"],
+  "exclude": ["node_modules"]
 }

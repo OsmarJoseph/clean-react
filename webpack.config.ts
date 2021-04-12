@@ -1,6 +1,13 @@
-const path = require('path')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-module.exports = {
+import * as path from 'path'
+import { Configuration as WebpackConfiguration } from 'webpack'
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+
+interface Configuration extends WebpackConfiguration {
+  devServer: WebpackDevServerConfiguration
+}
+
+const config: Configuration = {
   mode: 'development',
   entry: './src/main/index.tsx',
   output: {
@@ -48,3 +55,5 @@ module.exports = {
     new CleanWebpackPlugin()
   ]
 }
+
+export default config
