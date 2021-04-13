@@ -1,6 +1,6 @@
-import {LoginPage} from '@/presentation/pages'
+import {App} from '@/presentation/app'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-ReactDOM.render(<LoginPage />, document.getElementById('main'))
+ReactDOM.render(<App />, document.getElementById('main'))
