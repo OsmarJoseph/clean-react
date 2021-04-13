@@ -1,7 +1,7 @@
-import { AxiosHttpClient } from '@/infra/http'
+import {AxiosHttpClient} from '@/infra/http'
 
-import { mockRequestParams } from '@/__tests__/_data/mocks'
-import { mockAxios } from '@/__tests__/_infra/mocks'
+import {mockRequestParams} from '@/__tests__/_data/mocks'
+import {mockAxios} from '@/__tests__/_infra/mocks'
 
 import axios from 'axios'
 
@@ -22,21 +22,24 @@ const makeSut = (): SutTypes => {
   const mockedAxios = mockAxios()
   return {
     sut,
-    mockedAxios
+    mockedAxios,
   }
 }
 
 describe('AxiosHttpClient', () => {
   test('should call axios with correct values', async () => {
     const requestParams = mockRequestParams()
-    const { sut, mockedAxios } = makeSut()
+    const {sut, mockedAxios} = makeSut()
 
     await sut.post(requestParams)
 
-    expect(mockedAxios.post).toHaveBeenCalledWith(requestParams.url, requestParams.body)
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      requestParams.url,
+      requestParams.body
+    )
   })
   test('should return the correct statusCode and body', async () => {
-    const { sut, mockedAxios } = makeSut()
+    const {sut, mockedAxios} = makeSut()
 
     const httpResponse = await sut.post(mockRequestParams())
 
@@ -44,7 +47,7 @@ describe('AxiosHttpClient', () => {
 
     expect(httpResponse).toEqual({
       body: axiosPostResult.data,
-      statusCode: axiosPostResult.status
+      statusCode: axiosPostResult.status,
     })
   })
 })
