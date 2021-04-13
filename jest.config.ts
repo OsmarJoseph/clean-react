@@ -3,7 +3,7 @@ import type {Config} from '@jest/types'
 const config: Config.InitialOptions = {
   roots: ['<rootDir>/__tests__'],
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx}', '!**/*.d.ts'],
-  testMatch: ['**/*.spec.ts', '**/*.test.ts'],
+  testMatch: ['**/*.spec.{ts,tsx}', '**/*.test.{ts,tsx}'],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
   transform: {
