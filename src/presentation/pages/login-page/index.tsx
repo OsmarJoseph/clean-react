@@ -6,6 +6,7 @@ import {Footer, LoginHeader, Input, FormStatus} from '@/presentation/components'
 import {withProvider} from '@/presentation/helpers'
 
 import React, {useCallback, useEffect} from 'react'
+import {Link} from 'react-router-dom'
 
 type Props = {
   validation: Validation
@@ -68,7 +69,9 @@ const LoginPageComponent = ({
         >
           Entrar
         </button>
-        <span className={styles.link}>Criar conta</span>
+        <Link data-testid='signup' to='/signup' className={styles.link}>
+          Criar conta
+        </Link>
         <FormStatus />
       </form>
       <Footer />
