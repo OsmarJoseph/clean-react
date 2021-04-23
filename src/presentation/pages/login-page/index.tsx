@@ -6,7 +6,7 @@ import {Footer, LoginHeader, Input, FormStatus} from '@/presentation/components'
 import {withProvider} from '@/presentation/helpers'
 
 import React, {useCallback, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 
 type Props = {
   validation: Validation
@@ -26,6 +26,8 @@ const LoginPageComponent = ({
     setErrorMessage,
   } = useFormContext()
 
+  const history = useHistory()
+
   useEffect(() => {
     setInputErrors({
       email: validation.validate(['email', email]),
@@ -43,6 +45,7 @@ const LoginPageComponent = ({
       try {
         const account = await authentication.auth({email, password})
         localStorage.setItem('accessToken', account.accessToken)
+        history.replace('/')
       } catch (error) {
         setErrorMessage(error.message)
       } finally {
