@@ -1,4 +1,4 @@
-export type ActionMap<M extends {[index: string]: any}> = {
+type ActionMap<M extends {[index: string]: any}> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {
         type: Key

@@ -1,5 +1,8 @@
 import * as path from 'path'
-import {Configuration as WebpackConfiguration} from 'webpack'
+import {
+  HotModuleReplacementPlugin,
+  Configuration as WebpackConfiguration,
+} from 'webpack'
 import {Configuration as WebpackDevServerConfiguration} from 'webpack-dev-server'
 import {CleanWebpackPlugin} from 'clean-webpack-plugin'
 import sass from 'sass'
@@ -25,7 +28,9 @@ const config: Configuration = {
   devServer: {
     contentBase: './public',
     writeToDisk: true,
+    open: true,
     historyApiFallback: true,
+    hot: true,
   },
   module: {
     rules: [
@@ -49,9 +54,6 @@ const config: Configuration = {
           {
             loader: 'sass-loader',
             options: {
-              /**
-               * Use dart-sass.
-               */
               implementation: sass,
             },
           },
@@ -63,7 +65,7 @@ const config: Configuration = {
     react: 'React',
     'react-dom': 'ReactDOM',
   },
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [new HotModuleReplacementPlugin(), new CleanWebpackPlugin()],
 }
 
 export default config

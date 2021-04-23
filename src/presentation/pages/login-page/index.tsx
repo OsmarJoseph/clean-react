@@ -1,17 +1,71 @@
 import styles from './styles.scss'
+import {Authentication} from '@/domain/usecases'
+import {Validation} from '@/presentation/protocols'
+import {FormProvider, useFormContext} from '@/presentation/store/context'
 import {Footer, LoginHeader, Input, FormStatus} from '@/presentation/components'
+import {withProvider} from '@/presentation/helpers'
 
-import React from 'react'
+import React, {useCallback, useEffect} from 'react'
 
-export const LoginPage = (): JSX.Element => {
+type Props = {
+  validation: Validation
+  authentication: Authentication
+}
+
+const LoginPageComponent = ({
+  validation,
+  authentication,
+}: Props): JSX.Element => {
+  const {
+    inputValues: {email, password},
+    inputErrors,
+    setInputErrors,
+    isLoading,
+    setIsLoading,
+    setErrorMessage,
+  } = useFormContext()
+
+  useEffect(() => {
+    setInputErrors({
+      email: validation.validate(['email', email]),
+      password: validation.validate(['password', password]),
+    })
+  }, [email, password])
+
+  const hasInputErrors = !!inputErrors.email || !!inputErrors.password
+
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      if (isLoading || hasInputErrors) return
+      setIsLoading(true)
+      try {
+        const account = await authentication.auth({email, password})
+        localStorage.setItem('accessToken', account.accessToken)
+      } catch (error) {
+        setErrorMessage(error.message)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [isLoading, email, password, hasInputErrors]
+  )
+
+  const buttonIsDisabled = hasInputErrors
+
   return (
     <div className={styles.login}>
       <LoginHeader />
-      <form className={styles.form}>
+      <form data-testid='form' className={styles.form} onSubmit={handleSubmit}>
         <h2>Login</h2>
         <Input type='email' name='email' placeholder='Digite seu e-mail' />
         <Input type='password' name='password' placeholder='Digite sua senha' />
-        <button className={styles.submit} type='submit'>
+        <button
+          data-testid='submit'
+          disabled={buttonIsDisabled}
+          className={styles.submit}
+          type='submit'
+        >
           Entrar
         </button>
         <span className={styles.link}>Criar conta</span>
@@ -21,3 +75,5 @@ export const LoginPage = (): JSX.Element => {
     </div>
   )
 }
+
+export const LoginPage = withProvider(FormProvider)<Props>(LoginPageComponent)

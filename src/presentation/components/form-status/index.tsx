@@ -9,7 +9,11 @@ export const FormStatus = (): JSX.Element => {
   return (
     <div data-testid='error-wrap' className={styles.errorWrap}>
       {isLoading && <Spinner className={styles.spinner} />}
-      {errorMessage && <span className={styles.error}>{errorMessage}</span>}
+      {errorMessage && (
+        <span data-testid='main-error' className={styles.error}>
+          {errorMessage}
+        </span>
+      )}
     </div>
   )
 }

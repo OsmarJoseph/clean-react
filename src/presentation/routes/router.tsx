@@ -8,7 +8,7 @@ export const Router = (): JSX.Element => {
     <BrowserRouter>
       <Switch>
         <Route path='/login' exact>
-          <LoginPage />
+          <LoginPage validation={} authentication={} />
         </Route>
       </Switch>
     </BrowserRouter>
