@@ -82,6 +82,34 @@ const validateStatusForField = (
   expect(emailStatus.textContent).toBe(validationError ? '🔴' : '🟢')
 }
 
+const testErrorWrapChildCount = (sut: RenderResult, count: number): void => {
+  const errorWrap = sut.getByTestId('error-wrap')
+  expect(errorWrap.childElementCount).toBe(count)
+}
+
+const testElementExists = (sut: RenderResult, testId: string): void => {
+  const element = sut.getByTestId(testId)
+  expect(element).toBeTruthy()
+}
+
+const testElementText = (
+  sut: RenderResult,
+  testId: string,
+  text: string
+): void => {
+  const element = sut.getByTestId(testId)
+  expect(element.textContent).toBe(text)
+}
+
+const testButtonIsDisabled = (
+  sut: RenderResult,
+  testId: string,
+  isDisabled: boolean
+): void => {
+  const button = sut.getByTestId(testId) as HTMLButtonElement
+  expect(button.disabled).toBe(isDisabled)
+}
+
 describe('LoginPage', () => {
   beforeEach(() => {
     localStorage.clear()
@@ -89,12 +117,10 @@ describe('LoginPage', () => {
   test('should start with initial state', () => {
     const validationError = faker.random.words()
     const {sut} = makeSut({validationError})
-    const errorWrap = sut.getByTestId('error-wrap')
 
-    const submitButton = sut.getByTestId('submit') as HTMLButtonElement
+    testButtonIsDisabled(sut, 'submit', true)
 
-    expect(errorWrap.childElementCount).toBe(0)
-    expect(submitButton.disabled).toBe(true)
+    testErrorWrapChildCount(sut, 0)
     validateStatusForField(sut, 'email', validationError)
     validateStatusForField(sut, 'password', validationError)
   })
@@ -133,23 +159,17 @@ describe('LoginPage', () => {
   test('should enable submit button if form is valid', async () => {
     const {sut} = makeSut()
 
-    const submitButton = sut.getByTestId('submit') as HTMLButtonElement
-
     populateEmailField(sut)
     populatePasswordField(sut)
 
-    expect(submitButton.disabled).toBe(false)
+    testButtonIsDisabled(sut, 'submit', false)
   })
   test('should show loading spinner on submit', async () => {
     const {sut} = makeSut()
 
     simulateValidSubmit(sut)
 
-    clickSubmit(sut)
-
-    const spinner = sut.getByTestId('spinner')
-
-    expect(spinner).toBeTruthy()
+    testElementExists(sut, 'spinner')
   })
   test('should call Authentication with correct values', async () => {
     const {sut, authenticationSpy} = makeSut()
@@ -190,11 +210,9 @@ describe('LoginPage', () => {
 
     simulateValidSubmit(sut)
 
-    const mainError = sut.getByTestId('main-error')
-    const errorWrap = sut.getByTestId('error-wrap')
+    testElementText(sut, 'main-error', error.message)
 
-    expect(mainError.textContent).toBe(error.message)
-    expect(errorWrap.childElementCount).toBe(1)
+    testErrorWrapChildCount(sut, 1)
   })
   test('should add accessToken to local storage on success', async () => {
     const {sut, authenticationSpy} = makeSut()
