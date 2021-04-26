@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "sourceMap": true,
     "esModuleInterop": true,
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
@@ -12,6 +13,12 @@
     "resolveJsonModule": true,
     "rootDirs": ["src", "__tests__"],
     "baseUrl": "src",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "removeComments": true,
     "paths": {
       "@/__tests__/*": ["../__tests__/*"],
       "@/*": ["*"]

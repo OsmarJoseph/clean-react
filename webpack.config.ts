@@ -1,10 +1,8 @@
 import * as path from 'path'
-import {
-  HotModuleReplacementPlugin,
-  Configuration as WebpackConfiguration,
-} from 'webpack'
-import {Configuration as WebpackDevServerConfiguration} from 'webpack-dev-server'
-import {CleanWebpackPlugin} from 'clean-webpack-plugin'
+import { HotModuleReplacementPlugin, Configuration as WebpackConfiguration } from 'webpack'
+import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
 import sass from 'sass'
 
 interface Configuration extends WebpackConfiguration {
@@ -15,15 +13,13 @@ const config: Configuration = {
   mode: 'development',
   entry: './src/main/index.tsx',
   output: {
-    path: path.join(__dirname, 'public/js'),
+    path: path.resolve('public/js'),
     publicPath: '/public/js',
     filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', 'scss'],
-    alias: {
-      '@': path.join(__dirname, 'src'),
-    },
+    plugins: [new TsconfigPathsPlugin()],
   },
   devServer: {
     contentBase: './public',
@@ -31,6 +27,11 @@ const config: Configuration = {
     open: true,
     historyApiFallback: true,
     hot: true,
+    port: 3000,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    stats: 'minimal',
   },
   module: {
     rules: [

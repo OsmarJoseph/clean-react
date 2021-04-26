@@ -1,4 +1,6 @@
-import type {Config} from '@jest/types'
+import type { Config } from '@jest/types'
+import { pathsToModuleNameMapper } from 'ts-jest/utils'
+import { compilerOptions } from './tsconfig.json'
 
 const config: Config.InitialOptions = {
   roots: ['<rootDir>/__tests__', '<rootDir>/src/'],
@@ -10,10 +12,10 @@ const config: Config.InitialOptions = {
     '.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '@/__tests__/(.*)': '<rootDir>/__tests__/$1',
-    '@/(.*)': '<rootDir>/src/$1',
+    ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src' }),
     '\\.scss$': 'identity-obj-proxy',
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
 
 export default config

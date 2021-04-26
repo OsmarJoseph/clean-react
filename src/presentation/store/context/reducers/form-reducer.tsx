@@ -6,16 +6,18 @@ import {
   setInputErrors,
 } from '@/presentation/store/context'
 
-import React, {createContext, useContext, useReducer} from 'react'
+import React, { createContext, useContext, useReducer } from 'react'
+
+export type FormInputs = { email: string; password: string }
 
 export type FormContextType = {
   isLoading: boolean
   setIsLoading: (value: boolean) => void
   errorMessage: string
   setErrorMessage: (value: string) => void
-  inputValues: {email: string; password: string}
+  inputValues: FormInputs
   setInputValues: (value: FormContextType['inputValues']) => void
-  inputErrors: {email: string; password: string}
+  inputErrors: FormInputs
   setInputErrors: (value: FormContextType['inputErrors']) => void
 }
 
@@ -24,33 +26,30 @@ const initialState = {
   setIsLoading: (value: boolean) => value,
   errorMessage: '',
   setErrorMessage: (value: string) => value,
-  inputValues: {email: '', password: ''},
+  inputValues: { email: '', password: '' },
   setInputValues: (value: FormContextType['inputValues']) => value,
-  inputErrors: {email: 'Campo obrigatório', password: 'Campo obrigatório'},
+  inputErrors: { email: 'Campo obrigatório', password: 'Campo obrigatório' },
   setInputErrors: (value: FormContextType['inputErrors']) => value,
 }
 
 const FormContext = createContext<FormContextType>(initialState)
 
-export const FormReducer = (
-  state: FormContextType,
-  action: FormActions
-): FormContextType => {
+export const FormReducer = (state: FormContextType, action: FormActions): FormContextType => {
   switch (action.type) {
     case 'SET_IS_LOADING':
-      return {...state, isLoading: action.payload.isLoading}
+      return { ...state, isLoading: action.payload.isLoading }
     case 'SET_ERROR_MESSAGE':
-      return {...state, errorMessage: action.payload.errorMessage}
+      return { ...state, errorMessage: action.payload.errorMessage }
     case 'SET_INPUT_ERRORS':
-      return {...state, inputErrors: action.payload.inputErrors}
+      return { ...state, inputErrors: action.payload.inputErrors }
     case 'SET_INPUT_VALUES':
-      return {...state, inputValues: action.payload.inputValues}
+      return { ...state, inputValues: action.payload.inputValues }
     default:
       return state
   }
 }
 
-export function FormProvider({children}: {children: JSX.Element}): JSX.Element {
+export function FormProvider({ children }: { children: JSX.Element }): JSX.Element {
   const [state, dispatch] = useReducer(FormReducer, initialState)
   const value = {
     isLoading: state.isLoading,

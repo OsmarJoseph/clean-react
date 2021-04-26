@@ -1,23 +1,23 @@
 import styles from './styles.scss'
-import {useFormContext} from '@/presentation/store/context'
+import { FormInputs, useFormContext } from '@/presentation/store/context'
 
-import React, {useCallback} from 'react'
+import React, { useCallback } from 'react'
 
 type Props = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
->
+> & { name: keyof FormInputs }
 
 export const Input = (props: Props): JSX.Element => {
-  const {inputValues, setInputValues, inputErrors} = useFormContext()
-  const {name: inputName} = props
+  const { inputValues, setInputValues, inputErrors } = useFormContext()
+  const { name: inputName } = props
   const thisInputError = inputErrors[inputName]
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValues({...inputValues, [inputName]: event.target.value})
+      setInputValues({ ...inputValues, [inputName]: event.target.value })
     },
-    [inputValues, setInputValues]
+    [inputValues, setInputValues],
   )
 
   const getStatus = useCallback(() => {
@@ -31,11 +31,7 @@ export const Input = (props: Props): JSX.Element => {
   return (
     <div className={styles.inputWrap}>
       <input {...props} data-testid={inputName} onChange={handleChange} />
-      <span
-        title={getTitle()}
-        className={styles.status}
-        data-testid={`${inputName}-status`}
-      >
+      <span title={getTitle()} className={styles.status} data-testid={`${inputName}-status`}>
         {getStatus()}
       </span>
     </div>
