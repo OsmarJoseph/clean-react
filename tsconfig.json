@@ -20,7 +20,7 @@
     "noImplicitAny": true,
     "removeComments": true,
     "paths": {
-      "@/__tests__/*": ["../__tests__/*"],
+      "@/tests/*": ["../__tests__/*"],
       "@/*": ["*"]
     }
   },
