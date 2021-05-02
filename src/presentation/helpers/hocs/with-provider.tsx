@@ -1,6 +1,6 @@
 import React from 'react'
 
-type Component = ({children}: any) => JSX.Element
+type Component = ({ children }: any) => JSX.Element
 
 export const withProvider = (Provider: Component) => {
   return function Component<Props>(Component: Component) {

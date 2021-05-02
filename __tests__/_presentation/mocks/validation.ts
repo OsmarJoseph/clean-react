@@ -1,4 +1,4 @@
-import {Validation} from '@/presentation/protocols'
+import { Validation } from '@/presentation/protocols'
 
 export class ValidationStub implements Validation {
   params: Validation.Params

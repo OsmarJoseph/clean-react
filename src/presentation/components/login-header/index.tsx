@@ -1,7 +1,7 @@
 import styles from './styles.scss'
-import {Logo} from '@/presentation/components'
+import { Logo } from '@/presentation/components'
 
-import React, {memo} from 'react'
+import React, { memo } from 'react'
 
 const LoginHeaderComponent = (): JSX.Element => {
   return (

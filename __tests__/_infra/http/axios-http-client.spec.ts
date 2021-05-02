@@ -1,15 +1,15 @@
-import {AxiosHttpClient} from '@/infra/http'
+import { AxiosHttpClient } from '@/infra/http'
 
-import {mockRequestParams} from '@/__tests__/_data/mocks'
-import {mockAxios} from '@/__tests__/_infra/mocks'
+import { mockRequestParams } from '@/__tests__/_data/mocks'
+import { mockAxios } from '@/__tests__/_infra/mocks'
 
 import axios from 'axios'
 
 jest.mock('axios')
 
 type AxiosHttpClientConstructor = {
-  request: {body: object}
-  response: {body: object}
+  request: { body: object }
+  response: { body: object }
 }
 
 type SutTypes = {
@@ -29,17 +29,14 @@ const makeSut = (): SutTypes => {
 describe('AxiosHttpClient', () => {
   test('should call axios with correct values', async () => {
     const requestParams = mockRequestParams()
-    const {sut, mockedAxios} = makeSut()
+    const { sut, mockedAxios } = makeSut()
 
     await sut.post(requestParams)
 
-    expect(mockedAxios.post).toHaveBeenCalledWith(
-      requestParams.url,
-      requestParams.body
-    )
+    expect(mockedAxios.post).toHaveBeenCalledWith(requestParams.url, requestParams.body)
   })
   test('should return the correct statusCode and body', async () => {
-    const {sut, mockedAxios} = makeSut()
+    const { sut, mockedAxios } = makeSut()
 
     const httpResponse = await sut.post(mockRequestParams())
 

@@ -1,4 +1,4 @@
-import {HttpPostClient, HttpResponse} from '@/data/protocols'
+import { HttpPostClient, HttpResponse } from '@/data/protocols'
 
 import axios from 'axios'
 

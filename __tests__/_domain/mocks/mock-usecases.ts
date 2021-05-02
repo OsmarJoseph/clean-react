@@ -1,6 +1,6 @@
-import {Authentication} from '@/domain/usecases'
+import { Authentication } from '@/domain/usecases'
 
-import {mockAccountModel} from '@/__tests__/_domain/mocks'
+import { mockAccountModel } from '@/__tests__/_domain/mocks'
 
 export class AuthenticationSpy implements Authentication {
   params: Authentication.Params

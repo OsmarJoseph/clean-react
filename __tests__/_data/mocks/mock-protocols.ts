@@ -1,10 +1,10 @@
-import {HttpPostClient, HttpResponse, HttpStatusCode} from '@/data/protocols'
+import { HttpPostClient, HttpResponse, HttpStatusCode } from '@/data/protocols'
 
-import {mockObject} from '@/__tests__/helpers/fakes'
+import { mockObject } from '@/__tests__/helpers/fakes'
 
 import faker from 'faker'
 
-export const mockRequestParams = (): HttpPostClient.Params<{body: object}> => ({
+export const mockRequestParams = (): HttpPostClient.Params<{ body: object }> => ({
   url: faker.internet.url(),
   body: mockObject(),
 })
@@ -18,7 +18,7 @@ export class HttpPostClientSpy<Constructor extends HttpPostClient.Constructor>
   }
 
   async post(
-    params: HttpPostClient.Params<Constructor['request']>
+    params: HttpPostClient.Params<Constructor['request']>,
   ): Promise<HttpResponse<Constructor['response']>> {
     this.params = params
     return this.response

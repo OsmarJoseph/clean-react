@@ -1,24 +1,21 @@
 import styles from './styles.scss'
-import {Authentication} from '@/domain/usecases'
-import {Validation} from '@/presentation/protocols'
-import {FormProvider, useFormContext} from '@/presentation/store/context'
-import {Footer, LoginHeader, Input, FormStatus} from '@/presentation/components'
-import {withProvider} from '@/presentation/helpers'
+import { Authentication } from '@/domain/usecases'
+import { Validation } from '@/presentation/protocols'
+import { FormProvider, useFormContext } from '@/presentation/store/context'
+import { Footer, LoginHeader, Input, FormStatus } from '@/presentation/components'
+import { withProvider } from '@/presentation/helpers'
 
-import React, {useCallback, useEffect} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import React, { useCallback, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
 type Props = {
   validation: Validation
   authentication: Authentication
 }
 
-const LoginPageComponent = ({
-  validation,
-  authentication,
-}: Props): JSX.Element => {
+const LoginPageComponent = ({ validation, authentication }: Props): JSX.Element => {
   const {
-    inputValues: {email, password},
+    inputValues: { email, password },
     inputErrors,
     setInputErrors,
     isLoading,
@@ -43,7 +40,7 @@ const LoginPageComponent = ({
       if (isLoading || hasInputErrors) return
       setIsLoading(true)
       try {
-        const account = await authentication.auth({email, password})
+        const account = await authentication.auth({ email, password })
         localStorage.setItem('accessToken', account.accessToken)
         history.replace('/')
       } catch (error) {
@@ -52,7 +49,7 @@ const LoginPageComponent = ({
         setIsLoading(false)
       }
     },
-    [isLoading, email, password, hasInputErrors]
+    [isLoading, email, password, hasInputErrors],
   )
 
   const buttonIsDisabled = hasInputErrors
@@ -60,19 +57,19 @@ const LoginPageComponent = ({
   return (
     <div className={styles.login}>
       <LoginHeader />
-      <form data-testid='form' className={styles.form} onSubmit={handleSubmit}>
+      <form data-testid="form" className={styles.form} onSubmit={handleSubmit}>
         <h2>Login</h2>
-        <Input type='email' name='email' placeholder='Digite seu e-mail' />
-        <Input type='password' name='password' placeholder='Digite sua senha' />
+        <Input type="email" name="email" placeholder="Digite seu e-mail" />
+        <Input type="password" name="password" placeholder="Digite sua senha" />
         <button
-          data-testid='submit'
+          data-testid="submit"
           disabled={buttonIsDisabled}
           className={styles.submit}
-          type='submit'
+          type="submit"
         >
           Entrar
         </button>
-        <Link data-testid='signup' to='/signup' className={styles.link}>
+        <Link data-testid="signup" to="/signup" className={styles.link}>
           Criar conta
         </Link>
         <FormStatus />

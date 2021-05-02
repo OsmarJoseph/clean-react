@@ -1,4 +1,4 @@
-import {FormContextType} from '@/presentation/store/context/'
+import { FormContextType } from '@/presentation/store/context/'
 
 export enum FormActionsEnum {
   SET_IS_LOADING = 'SET_IS_LOADING',
@@ -25,36 +25,36 @@ type FormPayload = {
 export type FormActions = ActionMap<FormPayload>[keyof ActionMap<FormPayload>]
 
 export const setIsLoading = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['isLoading']
+  value: FormContextType['isLoading'],
 ) => {
   dispatch({
     type: FormActionsEnum.SET_IS_LOADING,
-    payload: {isLoading: value},
+    payload: { isLoading: value },
   })
 }
 
 export const setErrorMessage = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['errorMessage']
+  value: FormContextType['errorMessage'],
 ) => {
   dispatch({
     type: FormActionsEnum.SET_ERROR_MESSAGE,
-    payload: {errorMessage: value},
+    payload: { errorMessage: value },
   })
 }
 
 export const setInputErrors = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['inputErrors']
+  value: FormContextType['inputErrors'],
 ) => {
   dispatch({
     type: FormActionsEnum.SET_INPUT_ERRORS,
-    payload: {inputErrors: value},
+    payload: { inputErrors: value },
   })
 }
 export const setInputValues = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['inputValues']
+  value: FormContextType['inputValues'],
 ) => {
   dispatch({
     type: FormActionsEnum.SET_INPUT_VALUES,
-    payload: {inputValues: value},
+    payload: { inputValues: value },
   })
 }
