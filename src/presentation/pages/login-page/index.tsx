@@ -1,4 +1,4 @@
-import styles from './styles.scss'
+import './styles.scss'
 import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols'
 import { FormProvider, useFormContext } from '@/presentation/store/context'
@@ -55,21 +55,16 @@ const LoginPageComponent = ({ validation, authentication }: Props): JSX.Element 
   const buttonIsDisabled = hasInputErrors
 
   return (
-    <div className={styles.login}>
+    <div className="login">
       <LoginHeader />
-      <form data-testid="form" className={styles.form} onSubmit={handleSubmit}>
+      <form data-testid="form" className="form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <Input type="email" name="email" placeholder="Digite seu e-mail" />
         <Input type="password" name="password" placeholder="Digite sua senha" />
-        <button
-          data-testid="submit"
-          disabled={buttonIsDisabled}
-          className={styles.submit}
-          type="submit"
-        >
+        <button data-testid="submit" disabled={buttonIsDisabled} className="submit" type="submit">
           Entrar
         </button>
-        <Link data-testid="signup" to="/signup" className={styles.link}>
+        <Link data-testid="signup" to="/signup" className="link">
           Criar conta
         </Link>
         <FormStatus />

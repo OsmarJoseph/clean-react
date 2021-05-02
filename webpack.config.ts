@@ -3,6 +3,8 @@ import { HotModuleReplacementPlugin, Configuration as WebpackConfiguration } fro
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import sass from 'sass'
 
 interface Configuration extends WebpackConfiguration {
@@ -11,19 +13,14 @@ interface Configuration extends WebpackConfiguration {
 
 const config: Configuration = {
   mode: 'development',
+  target: 'web',
   entry: './src/main/index.tsx',
-  output: {
-    path: path.resolve('public/js'),
-    publicPath: '/public/js',
-    filename: 'bundle.js',
-  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', 'scss'],
     plugins: [new TsconfigPathsPlugin()],
   },
   devServer: {
     contentBase: './public',
-    writeToDisk: true,
     open: true,
     historyApiFallback: true,
     hot: true,
@@ -41,15 +38,16 @@ const config: Configuration = {
         exclude: /node_modules/,
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
+            loader: 'postcss-loader',
             options: {
-              modules: true,
+              postcssOptions: {
+                plugins: ['postcss-preset-env'],
+              },
             },
           },
           {
@@ -62,11 +60,16 @@ const config: Configuration = {
       },
     ],
   },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-  },
-  plugins: [new HotModuleReplacementPlugin(), new CleanWebpackPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve('public/index.html'),
+    }),
+    new HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(),
+  ],
 }
 
 export default config
