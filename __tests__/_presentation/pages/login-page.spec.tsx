@@ -1,9 +1,9 @@
 import { LoginPage } from '@/presentation/pages'
 import { InvalidCredentialsError } from '@/domain/errors'
 
-import { AuthenticationSpy } from '@/__tests__/_domain/mocks'
-import { ValidationStub } from '@/__tests__/_presentation/mocks'
-import { throwError } from '@/__tests__/helpers/fakes'
+import { AuthenticationSpy } from '@/tests/_domain/mocks'
+import { ValidationStub } from '@/tests/_presentation/mocks'
+import { throwError } from '@/tests/helpers/fakes'
 
 import React from 'react'
 import { createMemoryHistory } from 'history'
