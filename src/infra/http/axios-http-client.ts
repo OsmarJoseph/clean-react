@@ -1,6 +1,6 @@
 import { HttpPostClient, HttpResponse } from '@/data/protocols'
 
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 export class AxiosHttpClient<Constructor extends HttpPostClient.Constructor>
   implements HttpPostClient<Constructor> {
@@ -10,8 +10,13 @@ export class AxiosHttpClient<Constructor extends HttpPostClient.Constructor>
   }: HttpPostClient.Params<Constructor['request']>): Promise<
     HttpResponse<Constructor['response']>
   > {
-    const httpResponse = await axios.post(url, body)
+    let httpResponse: AxiosResponse
 
+    try {
+      httpResponse = await axios.post(url, body)
+    } catch (error) {
+      httpResponse = error.response
+    }
     return {
       statusCode: httpResponse.status,
       body: httpResponse.data,
