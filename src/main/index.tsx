@@ -1,4 +1,4 @@
-import { App } from '@/presentation/app'
+import { App } from '@/main/app'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
