@@ -28,8 +28,8 @@ const config: Configuration = {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    stats: 'minimal',
   },
+  stats: 'minimal',
   module: {
     rules: [
       {

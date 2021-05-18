@@ -1,5 +1,5 @@
 import { makeLogin } from '@/main/factories'
-import { Router } from '@/presentation/routes'
+import { Router } from '@/main/routes'
 import '@/presentation/styles/global.scss'
 
 import React from 'react'

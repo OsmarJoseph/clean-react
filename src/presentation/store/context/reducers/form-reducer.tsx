@@ -21,7 +21,7 @@ export type FormContextType = {
   setInputErrors: (value: FormContextType['inputErrors']) => void
 }
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   setIsLoading: (value: boolean) => value,
   errorMessage: '',
@@ -44,8 +44,6 @@ export const FormReducer = (state: FormContextType, action: FormActions): FormCo
       return { ...state, inputErrors: action.payload.inputErrors }
     case 'SET_INPUT_VALUES':
       return { ...state, inputValues: action.payload.inputValues }
-    default:
-      return state
   }
 }
 

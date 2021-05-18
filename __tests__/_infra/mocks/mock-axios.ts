@@ -3,7 +3,7 @@ import { mockObject } from '@/tests/helpers/fakes'
 import faker from 'faker'
 import axios from 'axios'
 
-export const mockHttpResponse = (): any => ({
+export const mockHttpResponse = (): { data: unknown; status: number } => ({
   data: mockObject(),
   status: faker.datatype.number(),
 })
