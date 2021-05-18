@@ -1,5 +1,9 @@
 import * as path from 'path'
-import { HotModuleReplacementPlugin, Configuration as WebpackConfiguration } from 'webpack'
+import {
+  HotModuleReplacementPlugin,
+  Configuration as WebpackConfiguration,
+  EnvironmentPlugin,
+} from 'webpack'
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
@@ -69,6 +73,7 @@ const config: Configuration = {
     }),
     new HotModuleReplacementPlugin(),
     new CleanWebpackPlugin(),
+    new EnvironmentPlugin({ API_URL: 'http://fordevs.herokuapp.com/api' }),
   ],
 }
 
