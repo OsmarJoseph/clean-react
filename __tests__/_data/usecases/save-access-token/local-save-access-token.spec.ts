@@ -1,30 +1,37 @@
 import { LocalSaveAccessToken } from '@/data/usecases'
+import { throwError } from '@/tests/helpers/fakes'
 
-import { SetStorageSpy } from '@/tests/_data/mocks'
+import { SetStorageMock } from '@/tests/_data/mocks'
 
 import faker from 'faker'
 
 type SutTypes = {
   sut: LocalSaveAccessToken
-  setStorageSpy: SetStorageSpy
+  setStorageMock: SetStorageMock
 }
 
 const makeSut = (): SutTypes => {
-  const setStorageSpy = new SetStorageSpy()
-  const sut = new LocalSaveAccessToken(setStorageSpy)
+  const setStorageMock = new SetStorageMock()
+  const sut = new LocalSaveAccessToken(setStorageMock)
 
   return {
     sut,
-    setStorageSpy,
+    setStorageMock,
   }
 }
 
 describe('LocalSaveAccessToken', () => {
   test('should call SetStorage with correct values', async () => {
-    const { sut, setStorageSpy } = makeSut()
+    const { sut, setStorageMock } = makeSut()
     const accessToken = faker.random.words()
     await sut.save(accessToken)
-    expect(setStorageSpy.key).toBe('accessToken')
-    expect(setStorageSpy.value).toBe(accessToken)
+    expect(setStorageMock.key).toBe('accessToken')
+    expect(setStorageMock.value).toBe(accessToken)
+  })
+  test('should call throw if SetStorage throws', async () => {
+    const { sut, setStorageMock } = makeSut()
+    setStorageMock.set = throwError()
+    const resultPromise = sut.save(faker.random.words())
+    await expect(resultPromise).rejects.toThrow(new Error())
   })
 })
