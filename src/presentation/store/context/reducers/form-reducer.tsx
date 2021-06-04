@@ -8,7 +8,12 @@ import {
 
 import React, { createContext, useContext, useReducer } from 'react'
 
-export type FormInputs = { email: string; password: string }
+export type FormInputs = {
+  name?: string
+  email: string
+  password: string
+  passwordConfirmation?: string
+}
 
 export type FormContextType = {
   isLoading: boolean
@@ -26,9 +31,14 @@ export const initialState = {
   setIsLoading: (value: boolean) => value,
   errorMessage: '',
   setErrorMessage: (value: string) => value,
-  inputValues: { email: '', password: '' },
+  inputValues: { name: '', email: '', password: '', passwordConfirmation: '' },
   setInputValues: (value: FormContextType['inputValues']) => value,
-  inputErrors: { email: 'Campo obrigatório', password: 'Campo obrigatório' },
+  inputErrors: {
+    name: 'Campo obrigatório',
+    email: 'Campo obrigatório',
+    password: 'Campo obrigatório',
+    passwordConfirmation: 'Campo obrigatório',
+  },
   setInputErrors: (value: FormContextType['inputErrors']) => value,
 }
 

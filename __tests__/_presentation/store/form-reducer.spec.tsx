@@ -7,9 +7,14 @@ describe('FormReducer', () => {
     expect(initialState.setIsLoading(false)).toBe(false)
     const errorMessage = faker.random.words()
     expect(initialState.setErrorMessage(errorMessage)).toBe(errorMessage)
-    const inputValues = { email: faker.internet.email(), password: faker.internet.password() }
+    const inputValues = {
+      name: faker.name.findName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      passwordConfirmation: faker.internet.password(),
+    }
     expect(initialState.setInputValues(inputValues)).toEqual(inputValues)
-    const inputErrors = { email: faker.random.words(), password: faker.random.words() }
-    expect(initialState.setInputErrors(inputErrors)).toEqual(inputErrors)
+
+    expect(initialState.setInputErrors(inputValues)).toEqual(inputValues)
   })
 })
