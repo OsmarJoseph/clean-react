@@ -1,4 +1,4 @@
-import { mockObject } from '@/tests/helpers/fakes'
+import { mockObject } from '@/tests/helpers'
 
 import faker from 'faker'
 import axios from 'axios'

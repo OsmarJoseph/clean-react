@@ -1,5 +1,5 @@
 import { LocalSaveAccessToken } from '@/data/usecases'
-import { throwError } from '@/tests/helpers/fakes'
+import { throwError } from '@/tests/helpers'
 
 import { SetStorageMock } from '@/tests/_data/mocks'
 

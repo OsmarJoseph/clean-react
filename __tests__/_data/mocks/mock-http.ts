@@ -1,6 +1,6 @@
 import { HttpPostClient, HttpResponse, HttpStatusCode } from '@/data/protocols'
 
-import { mockObject } from '@/tests/helpers/fakes'
+import { mockObject } from '@/tests/helpers'
 
 import faker from 'faker'
 
