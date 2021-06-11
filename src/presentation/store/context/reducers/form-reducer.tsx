@@ -10,8 +10,8 @@ import React, { createContext, useContext, useReducer } from 'react'
 
 export type FormInputs = {
   name?: string
-  email: string
-  password: string
+  email?: string
+  password?: string
   passwordConfirmation?: string
 }
 
