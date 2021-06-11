@@ -1,9 +1,10 @@
 import {
-  FormActions,
+  FormReducer,
   setIsLoading,
   setErrorMessage,
   setInputValues,
   setInputErrors,
+  setIsFormValid,
 } from '@/presentation/store/context'
 
 import React, { createContext, useContext, useReducer } from 'react'
@@ -24,6 +25,8 @@ export type FormContextType = {
   setInputValues: (value: FormContextType['inputValues']) => void
   inputErrors: FormInputs
   setInputErrors: (value: FormContextType['inputErrors']) => void
+  isFormValid: boolean
+  setIsFormValid: (value: boolean) => void
 }
 
 export const initialState = {
@@ -39,23 +42,12 @@ export const initialState = {
     password: 'Campo obrigatório',
     passwordConfirmation: 'Campo obrigatório',
   },
+  isFormValid: false,
   setInputErrors: (value: FormContextType['inputErrors']) => value,
+  setIsFormValid: (value: boolean) => value,
 }
 
 const FormContext = createContext<FormContextType>(initialState)
-
-export const FormReducer = (state: FormContextType, action: FormActions): FormContextType => {
-  switch (action.type) {
-    case 'SET_IS_LOADING':
-      return { ...state, isLoading: action.payload.isLoading }
-    case 'SET_ERROR_MESSAGE':
-      return { ...state, errorMessage: action.payload.errorMessage }
-    case 'SET_INPUT_ERRORS':
-      return { ...state, inputErrors: action.payload.inputErrors }
-    case 'SET_INPUT_VALUES':
-      return { ...state, inputValues: action.payload.inputValues }
-  }
-}
 
 export function FormProvider({ children }: { children: JSX.Element }): JSX.Element {
   const [state, dispatch] = useReducer(FormReducer, initialState)
@@ -68,6 +60,8 @@ export function FormProvider({ children }: { children: JSX.Element }): JSX.Eleme
     setInputValues: setInputValues(dispatch),
     inputErrors: state.inputErrors,
     setInputErrors: setInputErrors(dispatch),
+    isFormValid: state.isFormValid,
+    setIsFormValid: setIsFormValid(dispatch),
   }
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>
 }

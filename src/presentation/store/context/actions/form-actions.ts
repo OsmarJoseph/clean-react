@@ -5,6 +5,7 @@ export enum FormActionsEnum {
   SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE',
   SET_INPUT_ERRORS = 'SET_INPUT_ERRORS',
   SET_INPUT_VALUES = 'SET_INPUT_VALUES',
+  SET_IS_FORM_VALID = 'SET_IS_FORM_VALID',
 }
 
 type FormPayload = {
@@ -19,6 +20,9 @@ type FormPayload = {
   }
   [FormActionsEnum.SET_INPUT_VALUES]: {
     inputValues: FormContextType['inputValues']
+  }
+  [FormActionsEnum.SET_IS_FORM_VALID]: {
+    isFormValid: FormContextType['isFormValid']
   }
 }
 
@@ -57,4 +61,27 @@ export const setInputValues = (dispatch: React.Dispatch<FormActions>) => (
     type: FormActionsEnum.SET_INPUT_VALUES,
     payload: { inputValues: value },
   })
+}
+export const setIsFormValid = (dispatch: React.Dispatch<FormActions>) => (
+  value: FormContextType['isFormValid'],
+) => {
+  dispatch({
+    type: FormActionsEnum.SET_IS_FORM_VALID,
+    payload: { isFormValid: value },
+  })
+}
+
+export const FormReducer = (state: FormContextType, action: FormActions): FormContextType => {
+  switch (action.type) {
+    case 'SET_IS_LOADING':
+      return { ...state, isLoading: action.payload.isLoading }
+    case 'SET_ERROR_MESSAGE':
+      return { ...state, errorMessage: action.payload.errorMessage }
+    case 'SET_INPUT_ERRORS':
+      return { ...state, inputErrors: action.payload.inputErrors }
+    case 'SET_INPUT_VALUES':
+      return { ...state, inputValues: action.payload.inputValues }
+    case 'SET_IS_FORM_VALID':
+      return { ...state, isFormValid: action.payload.isFormValid }
+  }
 }

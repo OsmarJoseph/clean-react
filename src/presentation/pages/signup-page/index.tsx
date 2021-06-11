@@ -1,7 +1,7 @@
 import './styles.scss'
 import { AddAccount, SaveAccessToken } from '@/domain/usecases'
 import { FormProvider, useFormContext } from '@/presentation/store/context'
-import { Footer, LoginHeader, Input, FormStatus } from '@/presentation/components'
+import { Footer, LoginHeader, Input, FormStatus, SubmitButton } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols'
 import { withProvider } from '@/presentation/helpers'
 
@@ -17,34 +17,34 @@ type Props = {
 const SignUpComponent = ({ validation, saveAccessToken, addAccount }: Props): JSX.Element => {
   const {
     inputValues: { name, email, password, passwordConfirmation },
-    inputErrors,
+    isFormValid,
+    setIsFormValid,
     setInputErrors,
     setIsLoading,
     isLoading,
     setErrorMessage,
   } = useFormContext()
 
-  const hasInputErrors =
-    !!inputErrors.name ||
-    !!inputErrors.email ||
-    !!inputErrors.password ||
-    !!inputErrors.passwordConfirmation
-
   const history = useHistory()
 
   useEffect(() => {
+    const nameError = validation.validate(['name', name])
+    const emailError = validation.validate(['email', email])
+    const passwordError = validation.validate(['password', email])
+    const passwordConfirmationError = validation.validate(['passwordConfirmation', email])
     setInputErrors({
-      name: validation.validate(['name', name]),
-      email: validation.validate(['email', email]),
-      password: validation.validate(['password', password]),
-      passwordConfirmation: validation.validate(['passwordConfirmation', passwordConfirmation]),
+      name: nameError,
+      email: emailError,
+      password: passwordError,
+      passwordConfirmation: passwordConfirmationError,
     })
-  }, [name])
+    setIsFormValid(!nameError && !emailError && !passwordError && !passwordConfirmationError)
+  }, [name, email, password, passwordConfirmation])
 
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      if (isLoading || hasInputErrors) return
+      if (isLoading || !isFormValid) return
 
       setIsLoading(true)
 
@@ -58,10 +58,8 @@ const SignUpComponent = ({ validation, saveAccessToken, addAccount }: Props): JS
         setIsLoading(false)
       }
     },
-    [isLoading, email, name, password, passwordConfirmation, hasInputErrors],
+    [isLoading, email, name, password, passwordConfirmation, isFormValid],
   )
-
-  const buttonIsDisabled = hasInputErrors
 
   return (
     <div className="signup">
@@ -72,9 +70,7 @@ const SignUpComponent = ({ validation, saveAccessToken, addAccount }: Props): JS
         <Input type="email" name="email" placeholder="Digite seu e-mail" />
         <Input type="password" name="password" placeholder="Digite sua senha" />
         <Input type="password" name="passwordConfirmation" placeholder="Repita sua senha" />
-        <button data-testid="submit" disabled={buttonIsDisabled} className="submit" type="submit">
-          Entrar
-        </button>
+        <SubmitButton isDisabled={!isFormValid}>Cadastrar</SubmitButton>
         <Link data-testid="login" to="/login" className="link" replace>
           Voltar para Login
         </Link>
