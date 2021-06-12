@@ -3,6 +3,6 @@ export interface Validation {
 }
 
 export namespace Validation {
-  export type Params = [fieldName: string, fieldValue: any]
+  export type Params = { [fieldName: string]: string }
   export type Result = string
 }

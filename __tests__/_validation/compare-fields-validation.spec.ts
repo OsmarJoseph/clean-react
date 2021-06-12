@@ -8,10 +8,10 @@ type SutTypes = {
   field: string
 }
 
-const makeSut = (valueToCompare: string): SutTypes => {
+const makeSut = (fieldToCompare: string): SutTypes => {
   const field = faker.database.column()
 
-  const sut = new CompareFieldsValidation(field, valueToCompare)
+  const sut = new CompareFieldsValidation(field, fieldToCompare)
   return {
     sut,
     field,
@@ -20,15 +20,19 @@ const makeSut = (valueToCompare: string): SutTypes => {
 
 describe('CompareFieldsValidation', () => {
   test('should return error if compare is invalid', () => {
-    const valueToCompare = faker.random.word()
-    const { sut, field } = makeSut(valueToCompare)
-    const error = sut.validate(faker.random.word())
+    const fieldToCompare = faker.database.column()
+    const { sut, field } = makeSut(fieldToCompare)
+    const error = sut.validate({
+      [field]: faker.random.word(),
+      [fieldToCompare]: faker.random.word(),
+    })
     expect(error).toEqual(new InvalidFieldError(field))
   })
   test('should return falsy if compare is valid', () => {
-    const valueToCompare = faker.random.word()
-    const { sut } = makeSut(valueToCompare)
-    const error = sut.validate(valueToCompare)
+    const fieldToCompare = faker.database.column()
+    const { sut, field } = makeSut(fieldToCompare)
+    const value = faker.random.word()
+    const error = sut.validate({ [field]: value, [fieldToCompare]: value })
     expect(error).toBeFalsy()
   })
 })

@@ -6,7 +6,6 @@ import {
 import { LoginPage } from '@/presentation/pages'
 
 import React from 'react'
-import {} from '../validation'
 
 export const makeLogin = (): JSX.Element => {
   return (

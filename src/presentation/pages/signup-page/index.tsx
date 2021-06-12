@@ -28,10 +28,10 @@ const SignUpComponent = ({ validation, saveAccessToken, addAccount }: Props): JS
   const history = useHistory()
 
   useEffect(() => {
-    const nameError = validation.validate(['name', name])
-    const emailError = validation.validate(['email', email])
-    const passwordError = validation.validate(['password', email])
-    const passwordConfirmationError = validation.validate(['passwordConfirmation', email])
+    const nameError = validation.validate({ name })
+    const emailError = validation.validate({ email })
+    const passwordError = validation.validate({ password })
+    const passwordConfirmationError = validation.validate({ passwordConfirmation, password })
     setInputErrors({
       name: nameError,
       email: emailError,

@@ -32,11 +32,11 @@ const LoginPageComponent = ({
   const history = useHistory()
 
   useEffect(() => {
-    const emailError = validation.validate(['email', email])
-    const passwordError = validation.validate(['password', password])
+    const emailError = validation.validate({ email })
+    const passwordError = validation.validate({ password })
     setInputErrors({
-      email: validation.validate(['email', email]),
-      password: validation.validate(['password', password]),
+      email: emailError,
+      password: passwordError,
     })
     setIsFormValid(!emailError && !passwordError)
   }, [email, password])
