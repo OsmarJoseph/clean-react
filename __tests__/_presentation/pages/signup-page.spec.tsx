@@ -1,5 +1,5 @@
 import { EmailInUseError } from '@/domain/errors'
-import { SignUp } from '@/presentation/pages'
+import { SignUpPage } from '@/presentation/pages'
 
 import { AddAccountSpy, SaveAccessTokenMock } from '@/tests/_domain/mocks'
 import { Helper, throwError } from '@/tests/helpers'
@@ -31,7 +31,7 @@ const makeSut = (sutParams?: SutParams): SutTypes => {
   validationStub.result = sutParams?.validationError
   const sut = render(
     <Router history={history}>
-      <SignUp
+      <SignUpPage
         validation={validationStub}
         addAccount={addAccountSpy}
         saveAccessToken={saveAccessTokenMock}

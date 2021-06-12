@@ -81,4 +81,4 @@ const SignUpComponent = ({ validation, saveAccessToken, addAccount }: Props): JS
   )
 }
 
-export const SignUp = withProvider(FormProvider)<Props>(SignUpComponent)
+export const SignUpPage = withProvider(FormProvider)<Props>(SignUpComponent)

@@ -56,7 +56,7 @@ const LoginPageComponent = ({
         setIsLoading(false)
       }
     },
-    [isLoading, email, password],
+    [isLoading, email, password, isFormValid],
   )
 
   return (
