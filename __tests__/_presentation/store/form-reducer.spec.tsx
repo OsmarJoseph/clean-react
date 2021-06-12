@@ -14,7 +14,8 @@ describe('FormReducer', () => {
       passwordConfirmation: faker.internet.password(),
     }
     expect(initialState.setInputValues(inputValues)).toEqual(inputValues)
-
     expect(initialState.setInputErrors(inputValues)).toEqual(inputValues)
+    const isFormValid = faker.datatype.boolean()
+    expect(initialState.setIsFormValid(isFormValid)).toEqual(isFormValid)
   })
 })
