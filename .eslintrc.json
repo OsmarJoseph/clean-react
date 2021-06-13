@@ -15,7 +15,7 @@
   ],
   "plugins": ["react", "prettier", "cypress"],
   "parserOptions": {
-    "project": ["./__tests__/cypress/tsconfig.json", "./tsconfig.json"]
+    "project": "./tsconfig-eslint.json"
   },
   "rules": {
     "prettier/prettier": 2,
