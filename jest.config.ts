@@ -11,6 +11,7 @@ const config: Config.InitialOptions = {
   transform: {
     '.+\\.(ts|tsx)$': 'ts-jest',
   },
+  testPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/__tests__/cypress'],
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src' }),
     '\\.scss$': 'identity-obj-proxy',
