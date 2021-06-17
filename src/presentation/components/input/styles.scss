@@ -9,13 +9,27 @@
     content: '';
     width: 100%;
     height: 2px;
-    background-color: $primaryLight;
+    background-color: $disabledText;
     position: absolute;
     left: 0px;
     bottom: -2px;
     transform-origin: 0%;
     transform: scaleX(0);
-    transition: transform 500ms ease;
+    transition: transform 400ms ease;
+  }
+
+  &[data-status='valid'] {
+    border-bottom-color: $valid;
+    &::after {
+      background-color: $valid;
+    }
+  }
+
+  &[data-status='invalid'] {
+    border-bottom-color: $invalid;
+    &::after {
+      background-color: $invalid;
+    }
   }
 
   input {
@@ -32,7 +46,7 @@
     cursor: text;
     transform-origin: 0%;
     transform: translateY(-20px);
-    transition: transform 500ms ease;
+    transition: transform 400ms ease;
   }
 
   .status {

@@ -25,27 +25,23 @@ export const Input = (props: Props): JSX.Element => {
     inputRef.current.focus()
   }, [])
 
-  const getStatus = useCallback(() => {
-    return thisInputError ? '🔴' : '🟢'
-  }, [thisInputError])
-
-  const getTitle = useCallback(() => {
-    return thisInputError || 'Tudo certo!'
-  }, [thisInputError])
-
   return (
-    <div className="inputWrap">
+    <div
+      className="inputWrap"
+      data-status={thisInputError ? 'invalid' : 'valid'}
+      data-testid={`${inputName}-wrap`}
+    >
       <input
         {...props}
+        title={thisInputError}
         ref={inputRef}
         placeholder=" "
-        data-testid={inputName}
         onChange={handleChange}
+        data-testid={inputName}
       />
-      <label onClick={handleLabelClick}>{props.placeholder}</label>
-      <span title={getTitle()} className="status" data-testid={`${inputName}-status`}>
-        {getStatus()}
-      </span>
+      <label onClick={handleLabelClick} title={thisInputError} data-testid={`${inputName}-label`}>
+        {props.placeholder}
+      </label>
     </div>
   )
 }
