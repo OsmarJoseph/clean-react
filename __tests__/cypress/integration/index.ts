@@ -1,1 +1,2 @@
-export * as Http from './login-mocks'
+export * as LoginMocks from './login-mocks'
+export * as SignupMocks from './signup-mocks'

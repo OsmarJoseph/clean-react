@@ -18,3 +18,22 @@ export const testMainError = (error?: string): void => {
 export const testLocalStorageItem = (key: string): void => {
   cy.window().then((window) => assert.isOk(window.localStorage.getItem(key)))
 }
+
+export const clickSubmit = (actionTrigger?: 'click' | 'dbclick' | 'enter'): void => {
+  switch (actionTrigger) {
+    case 'click':
+      cy.getByTestId('submit').click()
+      break
+    case 'dbclick':
+      cy.getByTestId('submit').dblclick()
+      break
+
+    case 'enter':
+      cy.getByTestId('submit').type('{enter}')
+      break
+
+    default:
+      cy.getByTestId('submit').click()
+      break
+  }
+}

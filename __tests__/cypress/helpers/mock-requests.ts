@@ -16,6 +16,20 @@ export const mockUnexpectedErrorRequest = (method: 'POST' | 'GET', url: RouteMat
   })
 }
 
+export const mockInvalidDataRequest = (method: 'POST' | 'GET', url: RouteMatcher): void => {
+  cy.intercept(method, url, {
+    statusCode: 200,
+    body: { invalidProperty: faker.datatype.uuid() },
+  })
+}
+
+export const mockEmailInUseErrorRequest = (method: 'POST' | 'GET', url: RouteMatcher): void => {
+  cy.intercept(method, url, {
+    statusCode: 403,
+    response: { error: faker.random.words() },
+  })
+}
+
 export const testHttpCallsCount = (count: number): void => {
   cy.get('@request.all').should('have.length', count)
 }
