@@ -4,9 +4,12 @@ import { mockObject } from '@/tests/helpers'
 
 import faker from 'faker'
 
-export const mockRequestParams = (): HttpPostClient.Params<{ body: object }> => ({
+export const mockPostRequestParams = (): HttpPostClient.Params<{ body: object }> => ({
   url: faker.internet.url(),
   body: mockObject(),
+})
+export const mockGetRequestParams = (): HttpGetClient.Params => ({
+  url: faker.internet.url(),
 })
 
 export class HttpPostClientSpy<Constructor extends HttpPostClient.Constructor>

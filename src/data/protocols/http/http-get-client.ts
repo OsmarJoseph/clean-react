@@ -6,6 +6,7 @@ export interface HttpGetClient<Constructor extends HttpGetClient.Constructor> {
 
 export namespace HttpGetClient {
   export type Constructor = {
+    request?: { headers?: unknown }
     response: { body: unknown }
   }
 
