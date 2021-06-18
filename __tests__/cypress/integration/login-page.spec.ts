@@ -1,136 +1,111 @@
-import faker from 'faker'
+import { Http } from '.'
 
-const baseUrl: string = Cypress.config().baseUrl
+import faker from 'faker'
+import { FormHelper, RequestsHelper } from '@/tests/cypress/helpers'
+
+const simulateValidSubmit = (actionTrigger?: 'click' | 'dbclick' | 'enter'): void => {
+  cy.getByTestId('email').type(faker.internet.email())
+  cy.getByTestId('password').type(faker.random.alphaNumeric(5))
+
+  switch (actionTrigger) {
+    case 'click':
+      cy.getByTestId('submit').click()
+      break
+    case 'dbclick':
+      cy.getByTestId('submit').dblclick()
+      break
+
+    case 'enter':
+      cy.getByTestId('submit').type('{enter}')
+      break
+
+    default:
+      cy.getByTestId('submit').click()
+      break
+  }
+}
 
 describe('LoginPage', () => {
   beforeEach(() => {
     cy.visit('login')
   })
   it('should load with correct initial state', () => {
-    cy.getByTestId('email-wrap').should('have.attr', 'data-status', 'invalid')
-    cy.getByTestId('email').should('have.attr', 'title', 'Campo Obrigatório')
-    cy.getByTestId('email-label').should('have.attr', 'title', 'Campo Obrigatório')
+    FormHelper.testInputStatus('email', 'Campo Obrigatório')
 
-    cy.getByTestId('password-wrap').should('have.attr', 'data-status', 'invalid')
-    cy.getByTestId('password').should('have.attr', 'title', 'Campo Obrigatório')
-    cy.getByTestId('password-label').should('have.attr', 'title', 'Campo Obrigatório')
+    FormHelper.testInputStatus('password', 'Campo Obrigatório')
 
     cy.getByTestId('submit').should('have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
   it('should present error state if form is invalid', () => {
     cy.getByTestId('email').type(faker.random.word())
-    cy.getByTestId('email-wrap').should('have.attr', 'data-status', 'invalid')
-    cy.getByTestId('email').should('have.attr', 'title', 'O campo email é invalido')
-    cy.getByTestId('email-label').should('have.attr', 'title', 'O campo email é invalido')
+    FormHelper.testInputStatus('email', 'O campo email é invalido')
 
     cy.getByTestId('password').type(faker.random.alphaNumeric(3))
-    cy.getByTestId('password-wrap').should('have.attr', 'data-status', 'invalid')
-    cy.getByTestId('password').should('have.attr', 'title', 'O campo password é invalido')
-    cy.getByTestId('password-label').should('have.attr', 'title', 'O campo password é invalido')
+    FormHelper.testInputStatus('password', 'O campo password é invalido')
 
     cy.getByTestId('submit').should('have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
   it('should present valid state if form is valid', () => {
     cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('email-wrap').should('have.attr', 'data-status', 'valid')
-    cy.getByTestId('email').should('not.have.attr', 'title')
-    cy.getByTestId('email-label').should('not.have.attr', 'title')
+    FormHelper.testInputStatus('email')
 
     cy.getByTestId('password').type(faker.random.alphaNumeric(5))
-    cy.getByTestId('password-wrap').should('have.attr', 'data-status', 'valid')
-    cy.getByTestId('password').should('not.have.attr', 'title')
-    cy.getByTestId('password-label').should('not.have.attr', 'title')
+    FormHelper.testInputStatus('password')
 
     cy.getByTestId('submit').should('not.have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
   it('should present InvalidCredentialsError if invalid credentials are provided', () => {
-    cy.intercept('POST', '/api/login', {
-      statusCode: 401,
-      response: { error: faker.random.words() },
-    })
-    cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('password').type(faker.random.alphaNumeric(5))
+    Http.mockInvalidCredentialsRequest()
+    simulateValidSubmit()
 
-    cy.getByTestId('submit').click()
+    FormHelper.testMainError('You are using invalid credentials.')
 
-    cy.getByTestId('spinner')
-      .should('not.exist')
-      .getByTestId('main-error')
-      .should('contain.text', 'You are using invalid credentials.')
-
-    cy.url().should('eq', `${baseUrl}/login`)
+    RequestsHelper.testUrl('/login')
   })
 
   it('should present UnexpectedError on 400', () => {
-    cy.intercept('POST', '/api/login', {
-      statusCode: 400,
-      response: { error: faker.random.words() },
-    })
-    cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('password').type(faker.random.alphaNumeric(5))
+    Http.mockUnexpectedErrorRequest()
+    simulateValidSubmit()
 
-    cy.getByTestId('submit').click()
+    FormHelper.testMainError('Something wrong happened, try again.')
 
-    cy.getByTestId('spinner')
-      .should('not.exist')
-      .getByTestId('main-error')
-      .should('contain.text', 'Something wrong happened, try again.')
-
-    cy.url().should('eq', `${baseUrl}/login`)
+    RequestsHelper.testUrl('/login')
   })
   it('should present UnexpectedError if invalid data is returned', () => {
     cy.intercept('POST', '/api/login', {
-      statusCode: 400,
+      statusCode: faker.helpers.randomize([400, 404, 500]),
       body: { invalidProperty: faker.datatype.uuid() },
     })
-    cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('password').type(faker.random.alphaNumeric(5)).type('{enter}')
+    simulateValidSubmit('enter')
 
-    cy.getByTestId('spinner')
-      .should('not.exist')
-      .getByTestId('main-error')
-      .should('contain.text', 'Something wrong happened, try again.')
+    FormHelper.testMainError('Something wrong happened, try again.')
 
-    cy.url().should('eq', `${baseUrl}/login`)
+    RequestsHelper.testUrl('/login')
   })
   it('should not call submit if form is invalid', () => {
-    cy.intercept('POST', '/api/login', {
-      statusCode: 200,
-      body: { accessToken: faker.datatype.uuid() },
-    }).as('request')
+    Http.mockOkRequest()
     cy.getByTestId('email').type(faker.internet.email()).type('{enter}')
 
-    cy.get('@request.all').should('have.length', 0)
+    RequestsHelper.testHttpCallsCount(0)
   })
   it('should present save accessToken if valid credentials are provided', () => {
-    cy.intercept('POST', '/api/login', {
-      statusCode: 200,
-      body: { accessToken: faker.datatype.uuid() },
-    })
-    cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('password').type(faker.random.alphaNumeric(5))
+    Http.mockOkRequest()
+    simulateValidSubmit()
 
-    cy.getByTestId('submit').click()
+    FormHelper.testMainError()
 
-    cy.getByTestId('main-error').should('not.exist').getByTestId('spinner').should('not.exist')
+    RequestsHelper.testUrl('/')
 
-    cy.url().should('eq', `${baseUrl}/`)
-
-    cy.window().then((window) => assert.isOk(window.localStorage.getItem('accessToken')))
+    FormHelper.testLocalStorageItem('accessToken')
   })
   it('should prevent multiple submits', () => {
-    cy.intercept('POST', '/api/login', {
-      statusCode: 200,
-      body: { accessToken: faker.datatype.uuid() },
-    }).as('request')
-    cy.getByTestId('email').type(faker.internet.email())
-    cy.getByTestId('password').type(faker.random.alphaNumeric(5))
+    Http.mockOkRequest()
 
-    cy.getByTestId('submit').dblclick()
+    simulateValidSubmit('dbclick')
 
-    cy.get('@request.all').should('have.length', 1)
+    RequestsHelper.testHttpCallsCount(1)
   })
 })
