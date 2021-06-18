@@ -1,5 +1,6 @@
+import { UnexpectedError } from '@/domain/errors'
 import { LoadSurveysList } from '@/domain/usecases'
-import { HttpGetClient } from '@/data/protocols'
+import { HttpGetClient, HttpStatusCode } from '@/data/protocols'
 import { LoadSurveysListHttpGetClient } from '@/data/usecases'
 
 export class RemoteLoadSurveysList implements LoadSurveysList {
@@ -10,7 +11,15 @@ export class RemoteLoadSurveysList implements LoadSurveysList {
 
   async loadAll(): Promise<LoadSurveysList.Result> {
     const { httpGetClient, url } = this
-    await httpGetClient.get({ url })
-    return null
+    const httpResponse = await httpGetClient.get({ url })
+
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok:
+        return httpResponse.body
+      case HttpStatusCode.noContent:
+        return []
+      default:
+        throw new UnexpectedError()
+    }
   }
 }

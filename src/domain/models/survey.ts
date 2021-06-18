@@ -3,5 +3,5 @@ export type SurveyModel = {
   question: string
   answers: [{ image?: string; answer: string }]
   date: Date
-  didAnswer: string
+  didAnswer: boolean
 }

@@ -53,6 +53,13 @@ describe('RemoteAuthentication', () => {
     const responsePromise = sut.auth(authenticationParams)
     await expect(responsePromise).rejects.toThrow(new UnexpectedError())
   })
+  test('should throw UnexpectedError if HttpPostClient returns forbidden', async () => {
+    const { sut, httpPostClientSpy } = makeSut()
+    const authenticationParams = mockAuthenticationParams()
+    httpPostClientSpy.response.statusCode = HttpStatusCode.forbidden
+    const responsePromise = sut.auth(authenticationParams)
+    await expect(responsePromise).rejects.toThrow(new UnexpectedError())
+  })
   test('should throw UnexpectedError if HttpPostClient returns notFound', async () => {
     const { sut, httpPostClientSpy } = makeSut()
     const authenticationParams = mockAuthenticationParams()

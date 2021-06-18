@@ -1,4 +1,4 @@
-import { AccountModel } from '@/domain/models'
+import { AccountModel, SurveyModel } from '@/domain/models'
 import { AddAccount, Authentication } from '@/domain/usecases'
 
 import faker from 'faker'
@@ -21,3 +21,13 @@ export const mockAddAccountParams = (): AddAccount.Params => {
 export const mockAccountModel = (): AccountModel => ({
   accessToken: faker.datatype.uuid(),
 })
+
+export const mockSurveyModel = (): SurveyModel => ({
+  id: faker.datatype.uuid(),
+  question: faker.random.words(),
+  answers: [{ image: faker.image.imageUrl(), answer: faker.random.word() }],
+  date: faker.date.recent(),
+  didAnswer: faker.datatype.boolean(),
+})
+
+export const mockSurveyList = (): SurveyModel[] => [mockSurveyModel(), mockSurveyModel()]
