@@ -1,19 +1,18 @@
-import { LocalSaveAccessToken } from '@/data/usecases'
+import { LocalSaveCurrentAccount } from '@/data/usecases'
 import { UnexpectedError } from '@/domain/errors'
 
-import { throwError } from '@/tests/helpers'
+import { mockAccountModel } from '@/tests/_domain/mocks'
 import { SetStorageMock } from '@/tests/_data/mocks'
-
-import faker from 'faker'
+import { throwError } from '@/tests/helpers'
 
 type SutTypes = {
-  sut: LocalSaveAccessToken
+  sut: LocalSaveCurrentAccount
   setStorageMock: SetStorageMock
 }
 
 const makeSut = (): SutTypes => {
   const setStorageMock = new SetStorageMock()
-  const sut = new LocalSaveAccessToken(setStorageMock)
+  const sut = new LocalSaveCurrentAccount(setStorageMock)
 
   return {
     sut,
@@ -21,21 +20,21 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('LocalSaveAccessToken', () => {
+describe('LocalSaveCurrentAccount', () => {
   test('should call SetStorage with correct values', async () => {
     const { sut, setStorageMock } = makeSut()
-    const accessToken = faker.random.words()
-    await sut.save(accessToken)
-    expect(setStorageMock.key).toBe('accessToken')
-    expect(setStorageMock.value).toBe(accessToken)
+    const account = mockAccountModel()
+    await sut.save(account)
+    expect(setStorageMock.key).toBe('account')
+    expect(setStorageMock.value).toBe(JSON.stringify(account))
   })
   test('should call throw if SetStorage throws', async () => {
     const { sut, setStorageMock } = makeSut()
     setStorageMock.set = throwError()
-    const resultPromise = sut.save(faker.random.words())
+    const resultPromise = sut.save(mockAccountModel())
     await expect(resultPromise).rejects.toThrow(new Error())
   })
-  test('should call throw if accessToken is falsy', async () => {
+  test('should call throw if account is falsy', async () => {
     const { sut } = makeSut()
     const resultPromise = sut.save(undefined)
     await expect(resultPromise).rejects.toThrow(new UnexpectedError())

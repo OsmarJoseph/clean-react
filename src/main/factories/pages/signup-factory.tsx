@@ -1,4 +1,8 @@
-import { makeRemoteAddAccount, makeSignUpValidation, makeSaveAccessToken } from '@/main/factories'
+import {
+  makeRemoteAddAccount,
+  makeSignUpValidation,
+  makeSaveCurrentAccount,
+} from '@/main/factories'
 import { SignUpPage } from '@/presentation/pages'
 
 import React from 'react'
@@ -8,7 +12,7 @@ export const makeSignUp = (): JSX.Element => {
     <SignUpPage
       validation={makeSignUpValidation()}
       addAccount={makeRemoteAddAccount()}
-      saveAccessToken={makeSaveAccessToken()}
+      saveCurrentAccount={makeSaveCurrentAccount()}
     />
   )
 }

@@ -14,6 +14,6 @@ export const mockInvalidDataRequest = (): void =>
 export const mockOkRequest = (): void => {
   cy.intercept('POST', '/api/signup', {
     statusCode: 200,
-    body: { accessToken: faker.datatype.uuid() },
+    body: { accessToken: faker.datatype.uuid(), name: faker.name.findName() },
   }).as('request')
 }

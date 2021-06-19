@@ -1,7 +1,7 @@
 import { LoginPage } from '@/presentation/pages'
 import { InvalidCredentialsError } from '@/domain/errors'
 
-import { AuthenticationSpy, SaveAccessTokenMock } from '@/tests/_domain/mocks'
+import { AuthenticationSpy, SaveCurrentAccountMock } from '@/tests/_domain/mocks'
 import { ValidationStub } from '@/tests/_presentation/mocks'
 import { Helper, throwError } from '@/tests/helpers'
 
@@ -19,7 +19,7 @@ type SutParams = {
 type SutTypes = {
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
-  saveAccessTokenMock: SaveAccessTokenMock
+  saveCurrentAccountMock: SaveCurrentAccountMock
 }
 
 const history = createMemoryHistory({ initialEntries: ['/login'] })
@@ -27,13 +27,13 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (sutParams?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
-  const saveAccessTokenMock = new SaveAccessTokenMock()
+  const saveCurrentAccountMock = new SaveCurrentAccountMock()
   validationStub.result = sutParams?.validationError
   const sut = render(
     <Router history={history}>
       <LoginPage
         validation={validationStub}
-        saveAccessToken={saveAccessTokenMock}
+        saveCurrentAccount={saveCurrentAccountMock}
         authentication={authenticationSpy}
       />
     </Router>,
@@ -41,7 +41,7 @@ const makeSut = (sutParams?: SutParams): SutTypes => {
   return {
     sut,
     authenticationSpy,
-    saveAccessTokenMock,
+    saveCurrentAccountMock,
   }
 }
 
@@ -160,20 +160,20 @@ describe('LoginPage', () => {
 
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
-  test('should call SaveAccessToken on success', async () => {
-    const { sut, authenticationSpy, saveAccessTokenMock } = makeSut()
+  test('should call SaveCurrentAccount on success', async () => {
+    const { sut, authenticationSpy, saveCurrentAccountMock } = makeSut()
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
-    expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.result.accessToken)
+    expect(saveCurrentAccountMock.account).toEqual(authenticationSpy.result)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
-  test('should present error if SaveAccessToken fails', async () => {
-    const { sut, saveAccessTokenMock } = makeSut()
+  test('should present error if SaveCurrentAccount fails', async () => {
+    const { sut, saveCurrentAccountMock } = makeSut()
     const error = new InvalidCredentialsError()
 
-    saveAccessTokenMock.save = throwError(error)
+    saveCurrentAccountMock.save = throwError(error)
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))

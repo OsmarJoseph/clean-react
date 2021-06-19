@@ -1,7 +1,7 @@
 import {
   makeRemoteAuthentication,
   makeLoginValidation,
-  makeSaveAccessToken,
+  makeSaveCurrentAccount,
 } from '@/main/factories'
 import { LoginPage } from '@/presentation/pages'
 
@@ -12,7 +12,7 @@ export const makeLogin = (): JSX.Element => {
     <LoginPage
       validation={makeLoginValidation()}
       authentication={makeRemoteAuthentication()}
-      saveAccessToken={makeSaveAccessToken()}
+      saveCurrentAccount={makeSaveCurrentAccount()}
     />
   )
 }

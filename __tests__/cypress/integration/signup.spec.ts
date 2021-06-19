@@ -89,7 +89,7 @@ describe('SignupPage', () => {
 
     RequestsHelper.testHttpCallsCount(0)
   })
-  it('should present save accessToken if valid credentials are provided', () => {
+  it('should save account if valid credentials are provided', () => {
     SignupMocks.mockOkRequest()
     simulateValidSubmit()
 
@@ -97,7 +97,7 @@ describe('SignupPage', () => {
 
     RequestsHelper.testUrl('/')
 
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
   it('should prevent multiple submits', () => {
     SignupMocks.mockOkRequest()

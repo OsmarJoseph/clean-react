@@ -1,5 +1,5 @@
 import './styles.scss'
-import { Authentication, SaveAccessToken } from '@/domain/usecases'
+import { Authentication, SaveCurrentAccount } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols'
 import { FormProvider, useFormContext } from '@/presentation/store/context'
 import { Footer, LoginHeader, Input, FormStatus, SubmitButton } from '@/presentation/components'
@@ -11,12 +11,12 @@ import { Link, useHistory } from 'react-router-dom'
 type Props = {
   validation: Validation
   authentication: Authentication
-  saveAccessToken: SaveAccessToken
+  saveCurrentAccount: SaveCurrentAccount
 }
 
 const LoginPageComponent = ({
   validation,
-  saveAccessToken,
+  saveCurrentAccount,
   authentication,
 }: Props): JSX.Element => {
   const {
@@ -48,7 +48,7 @@ const LoginPageComponent = ({
       setIsLoading(true)
       try {
         const account = await authentication.auth({ email, password })
-        await saveAccessToken.save(account.accessToken)
+        await saveCurrentAccount.save(account)
         history.replace('/')
       } catch (error) {
         setErrorMessage(error.message)
