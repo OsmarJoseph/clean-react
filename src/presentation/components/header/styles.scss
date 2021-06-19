@@ -1,0 +1,46 @@
+@import '../../styles/tokens/color.scss';
+
+.c-header {
+  display: flex;
+  justify-content: center;
+  background-color: $primary;
+  border-top: 40px solid $primaryDark;
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 800px;
+    flex-grow: 1;
+    padding: 24px 40px;
+  }
+  &__logo {
+    width: 60px;
+    align-self: center;
+  }
+  &__logout {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    &-username {
+      color: $white;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    &-link {
+      color: $white;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .c-header {
+    border-top-width: 20px;
+  }
+}

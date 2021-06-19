@@ -1,0 +1,17 @@
+@import '../../styles/tokens/color.scss';
+
+.c-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 3px -1px $black;
+
+  &[style-color='red'] {
+    background-color: $invalid;
+  }
+  &[style-color='green'] {
+    background-color: $valid;
+  }
+}
