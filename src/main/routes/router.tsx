@@ -1,14 +1,10 @@
 import { SurveysListPage } from '@/presentation/pages'
+import { makeLogin, makeSignUp } from '@/main/factories'
 
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-type Props = {
-  makeLogin: () => JSX.Element
-  makeSignUp: () => JSX.Element
-}
-
-export const Router = ({ makeLogin, makeSignUp }: Props): JSX.Element => {
+export const Router = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Switch>
