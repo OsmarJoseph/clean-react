@@ -1,7 +1,7 @@
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { LoginPage } from '@/presentation/pages'
-import { InvalidCredentialsError } from '@/domain/errors'
 
-import { AuthenticationSpy, SaveCurrentAccountMock } from '@/tests/_domain/mocks'
+import { AuthenticationSpy } from '@/tests/_domain/mocks'
 import { ValidationStub } from '@/tests/_presentation/mocks'
 import { Helper, throwError } from '@/tests/helpers'
 
@@ -11,6 +11,7 @@ import { createMemoryHistory } from 'history'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
+import { ApiProvider } from '@/presentation/store/context'
 
 type SutParams = {
   validationError: string
@@ -19,7 +20,7 @@ type SutParams = {
 type SutTypes = {
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
-  saveCurrentAccountMock: SaveCurrentAccountMock
+  setCurrentAccountMock: jest.Mock<any, any>
 }
 
 const history = createMemoryHistory({ initialEntries: ['/login'] })
@@ -27,21 +28,19 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (sutParams?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
-  const saveCurrentAccountMock = new SaveCurrentAccountMock()
+  const setCurrentAccountMock = jest.fn()
   validationStub.result = sutParams?.validationError
   const sut = render(
-    <Router history={history}>
-      <LoginPage
-        validation={validationStub}
-        saveCurrentAccount={saveCurrentAccountMock}
-        authentication={authenticationSpy}
-      />
-    </Router>,
+    <ApiProvider setCurrentAccount={setCurrentAccountMock}>
+      <Router history={history}>
+        <LoginPage validation={validationStub} authentication={authenticationSpy} />
+      </Router>
+    </ApiProvider>,
   )
   return {
     sut,
     authenticationSpy,
-    saveCurrentAccountMock,
+    setCurrentAccountMock,
   }
 }
 
@@ -161,19 +160,19 @@ describe('LoginPage', () => {
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
   test('should call SaveCurrentAccount on success', async () => {
-    const { sut, authenticationSpy, saveCurrentAccountMock } = makeSut()
+    const { sut, authenticationSpy, setCurrentAccountMock } = makeSut()
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
-    expect(saveCurrentAccountMock.account).toEqual(authenticationSpy.result)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.result)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
   test('should present error if SaveCurrentAccount fails', async () => {
-    const { sut, saveCurrentAccountMock } = makeSut()
-    const error = new InvalidCredentialsError()
+    const { sut, setCurrentAccountMock } = makeSut()
+    const error = new UnexpectedError()
 
-    saveCurrentAccountMock.save = throwError(error)
+    setCurrentAccountMock.mockImplementationOnce(throwError(error))
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))

@@ -77,7 +77,7 @@ describe('SignupPage', () => {
   })
   it('should present UnexpectedError if invalid data is returned', () => {
     SignupMocks.mockInvalidDataRequest()
-    simulateValidSubmit('enter')
+    simulateValidSubmit()
 
     FormHelper.testMainError('Something wrong happened, try again.')
 

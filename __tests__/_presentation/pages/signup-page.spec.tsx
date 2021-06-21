@@ -1,7 +1,8 @@
 import { EmailInUseError } from '@/domain/errors'
 import { SignUpPage } from '@/presentation/pages'
+import { ApiProvider } from '@/presentation/store/context'
 
-import { AddAccountSpy, SaveCurrentAccountMock } from '@/tests/_domain/mocks'
+import { AddAccountSpy } from '@/tests/_domain/mocks'
 import { Helper, throwError } from '@/tests/helpers'
 import { ValidationStub } from '@/tests/_presentation/mocks'
 
@@ -15,7 +16,7 @@ import faker from 'faker'
 type SutTypes = {
   sut: RenderResult
   addAccountSpy: AddAccountSpy
-  saveCurrentAccountMock: SaveCurrentAccountMock
+  setCurrentAccountMock: jest.Mock<any, any>
 }
 
 type SutParams = {
@@ -27,22 +28,20 @@ const history = createMemoryHistory({ initialEntries: ['/signup'] })
 const makeSut = (sutParams?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
-  const saveCurrentAccountMock = new SaveCurrentAccountMock()
+  const setCurrentAccountMock = jest.fn()
   validationStub.result = sutParams?.validationError
   const sut = render(
-    <Router history={history}>
-      <SignUpPage
-        validation={validationStub}
-        addAccount={addAccountSpy}
-        saveCurrentAccount={saveCurrentAccountMock}
-      />
-    </Router>,
+    <ApiProvider setCurrentAccount={setCurrentAccountMock}>
+      <Router history={history}>
+        <SignUpPage validation={validationStub} addAccount={addAccountSpy} />
+      </Router>
+    </ApiProvider>,
   )
 
   return {
     sut,
     addAccountSpy,
-    saveCurrentAccountMock,
+    setCurrentAccountMock,
   }
 }
 
@@ -202,19 +201,19 @@ describe('SignUpPage', () => {
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
   test('should call SaveCurrentAccount on success', async () => {
-    const { sut, addAccountSpy, saveCurrentAccountMock } = makeSut()
+    const { sut, addAccountSpy, setCurrentAccountMock } = makeSut()
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))
-    expect(saveCurrentAccountMock.account).toBe(addAccountSpy.result)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.result)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
   test('should present error if SaveCurrentAccount fails', async () => {
-    const { sut, saveCurrentAccountMock } = makeSut()
+    const { sut, setCurrentAccountMock } = makeSut()
     const error = new EmailInUseError()
 
-    saveCurrentAccountMock.save = throwError(error)
+    setCurrentAccountMock.mockImplementationOnce(throwError(error))
 
     simulateValidSubmit(sut)
     await waitFor(() => sut.getByTestId('form'))

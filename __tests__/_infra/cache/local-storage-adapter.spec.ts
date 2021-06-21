@@ -20,10 +20,10 @@ describe('LocalStorageAdapter', () => {
   test('should call localStorage with correct values', () => {
     const { sut } = makeSut()
     const key = faker.random.word()
-    const value = faker.datatype.uuid()
+    const value = faker.random.objectElement<{ key: string; value: string }>()
 
     sut.set(key, value)
 
-    expect(localStorage.setItem).toHaveBeenCalledWith(key, value)
+    expect(localStorage.setItem).toHaveBeenCalledWith(key, JSON.stringify(value))
   })
 })

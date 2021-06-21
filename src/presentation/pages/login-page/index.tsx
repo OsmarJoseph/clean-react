@@ -1,7 +1,7 @@
 import './styles.scss'
-import { Authentication, SaveCurrentAccount } from '@/domain/usecases'
+import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols'
-import { FormProvider, useFormContext } from '@/presentation/store/context'
+import { FormProvider, useApiContext, useFormContext } from '@/presentation/store/context'
 import { Footer, LoginHeader, Input, FormStatus, SubmitButton } from '@/presentation/components'
 import { withProvider } from '@/presentation/helpers'
 
@@ -11,14 +11,10 @@ import { Link, useHistory } from 'react-router-dom'
 type Props = {
   validation: Validation
   authentication: Authentication
-  saveCurrentAccount: SaveCurrentAccount
 }
 
-const LoginPageComponent = ({
-  validation,
-  saveCurrentAccount,
-  authentication,
-}: Props): JSX.Element => {
+const LoginPageComponent = ({ validation, authentication }: Props): JSX.Element => {
+  const { setCurrentAccount } = useApiContext()
   const {
     inputValues: { email, password },
     setInputErrors,
@@ -48,7 +44,7 @@ const LoginPageComponent = ({
       setIsLoading(true)
       try {
         const account = await authentication.auth({ email, password })
-        await saveCurrentAccount.save(account)
+        await setCurrentAccount(account)
         history.replace('/')
       } catch (error) {
         setErrorMessage(error.message)
