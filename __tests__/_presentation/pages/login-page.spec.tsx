@@ -60,9 +60,9 @@ describe('LoginPage', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
 
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.getByTestId('submit')).toBeDisabled()
 
-    Helper.testChildCount('error-wrap', 0)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(0)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
   })
@@ -104,14 +104,14 @@ describe('LoginPage', () => {
     Helper.populateField('email')
     Helper.populateField('password')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
   test('should show loading spinner on submit', async () => {
     makeSut()
 
     simulateValidSubmit()
 
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
   test('should call Authentication with correct values', async () => {
     const { authenticationSpy } = makeSut()
@@ -152,9 +152,8 @@ describe('LoginPage', () => {
 
     simulateValidSubmit()
 
-    Helper.testElementText('main-error', error.message)
-
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
   test('should call SaveCurrentAccount on success', async () => {
     const { authenticationSpy, setCurrentAccountMock } = makeSut()
@@ -174,9 +173,8 @@ describe('LoginPage', () => {
     simulateValidSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
-    Helper.testElementText('main-error', error.message)
-
-    Helper.testChildCount('error-wrap', 1)
+    expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
   })
   test('should go to signup page', async () => {
     makeSut()
