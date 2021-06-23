@@ -1,4 +1,5 @@
 import { SurveysListPage } from '@/presentation/pages'
+import { PrivateRoute } from '@/presentation/middlewares'
 import { makeLogin, makeSignUp } from '@/main/factories'
 
 import React from 'react'
@@ -10,7 +11,7 @@ export const Router = (): JSX.Element => {
       <Switch>
         <Route path="/login" exact component={makeLogin} />
         <Route path="/signup" exact component={makeSignUp} />
-        <Route path="/" exact component={SurveysListPage} />
+        <PrivateRoute path="/" exact component={SurveysListPage} />
       </Switch>
     </BrowserRouter>
   )

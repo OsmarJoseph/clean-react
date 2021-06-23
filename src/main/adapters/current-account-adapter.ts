@@ -8,3 +8,7 @@ export const setCurrentAccountAdapter = async (account: AccountModel): Promise<v
   }
   makeLocalStorageAdapter().set('account', account)
 }
+
+export const getCurrentAccountAdapter = (): AccountModel => {
+  return makeLocalStorageAdapter().get('account')
+}
