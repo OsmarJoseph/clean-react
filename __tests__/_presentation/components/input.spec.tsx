@@ -1,22 +1,17 @@
 import { Input } from '@/presentation/components'
 
 import React from 'react'
-import { render, RenderResult } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-type SutTypes = {
-  sut: RenderResult
-}
-
-const makeSut = (): SutTypes => {
-  const sut = render(<Input name="name" />)
-  return { sut }
+const makeSut = (): void => {
+  render(<Input name="name" />)
 }
 describe('Input', () => {
   test('should focus input on label click', () => {
-    const { sut } = makeSut()
-    const input = sut.getByTestId('name')
-    const label = sut.getByTestId('name-label')
+    makeSut()
+    const input = screen.getByTestId('name')
+    const label = screen.getByTestId('name-label')
 
     userEvent.click(label)
 
