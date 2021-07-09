@@ -56,8 +56,6 @@ const simulateValidSubmit = (
   Helper.populateField('email', fakeEmail)
   Helper.populateField('password', fakePassword)
   Helper.populateField('passwordConfirmation', fakePassword)
-
-  clickSubmit()
 }
 
 describe('SignUpPage', () => {
@@ -147,8 +145,8 @@ describe('SignUpPage', () => {
     makeSut()
 
     simulateValidSubmit()
-
-    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
+    clickSubmit()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).toBeInTheDocument())
   })
   test('should call AddAccount with correct values', async () => {
     const { addAccountSpy } = makeSut()
@@ -158,20 +156,25 @@ describe('SignUpPage', () => {
     const fakePassword = faker.internet.password()
 
     simulateValidSubmit(fakeName, fakeEmail, fakePassword)
+    clickSubmit()
 
-    expect(addAccountSpy.params).toEqual({
-      name: fakeName,
-      email: fakeEmail,
-      password: fakePassword,
-      passwordConfirmation: fakePassword,
-    })
+    await waitFor(() =>
+      expect(addAccountSpy.params).toEqual({
+        name: fakeName,
+        email: fakeEmail,
+        password: fakePassword,
+        passwordConfirmation: fakePassword,
+      }),
+    )
   })
 
   test('should call AddAccount only once', async () => {
     const { addAccountSpy } = makeSut()
 
     simulateValidSubmit()
+    clickSubmit()
     simulateValidSubmit()
+    await waitFor(clickSubmit)
 
     expect(addAccountSpy.callsCount).toBe(1)
   })
@@ -192,6 +195,7 @@ describe('SignUpPage', () => {
     addAccountSpy.add = throwError(error)
 
     simulateValidSubmit()
+    clickSubmit()
 
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
     expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
@@ -200,6 +204,7 @@ describe('SignUpPage', () => {
     const { addAccountSpy, setCurrentAccountMock } = makeSut()
 
     simulateValidSubmit()
+    clickSubmit()
     await waitFor(() => screen.getByTestId('form'))
     expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.result)
     expect(history.length).toBe(1)
@@ -212,6 +217,7 @@ describe('SignUpPage', () => {
     setCurrentAccountMock.mockImplementationOnce(throwError(error))
 
     simulateValidSubmit()
+    clickSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)

@@ -1,6 +1,6 @@
-import { Authentication, AddAccount } from '@/domain/usecases'
+import { Authentication, AddAccount, LoadSurveysList } from '@/domain/usecases'
 
-import { mockAccountModel } from '@/tests/_domain/mocks'
+import { mockAccountModel, mockSurveyList } from '@/tests/_domain/mocks'
 
 export class AuthenticationSpy implements Authentication {
   params: Authentication.Params
@@ -19,9 +19,19 @@ export class AddAccountSpy implements AddAccount {
   callsCount = 0
   result: AddAccount.Result = mockAccountModel()
 
-  async add(params: AddAccount.Params): Promise<Authentication.Result> {
+  async add(params: AddAccount.Params): Promise<AddAccount.Result> {
     this.callsCount++
     this.params = params
+    return this.result
+  }
+}
+
+export class LoadSurveysListSpy implements LoadSurveysList {
+  callsCount = 0
+  result: LoadSurveysList.Result = mockSurveyList()
+
+  async loadAll(): Promise<LoadSurveysList.Result> {
+    this.callsCount++
     return this.result
   }
 }

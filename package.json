@@ -7,7 +7,7 @@
     "start": "webpack serve",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --no-cache",
+    "test": "jest --passWithNoTests --noStackTrace --runInBand --no-cache",
     "test:watch": "npm run test -- --watchAll",
     "test:cypress": "cypress open",
     "test:verbose": "jest --passWithNoTests --runInBand",

@@ -8,7 +8,7 @@ import { Helper, throwError } from '@/tests/helpers'
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import { ApiProvider } from '@/presentation/store/context'
@@ -48,8 +48,6 @@ const simulateValidSubmit = (
 ): void => {
   Helper.populateField('email', fakeEmail)
   Helper.populateField('password', fakePassword)
-
-  clickSubmit()
 }
 
 const clickSubmit = (): void => {
@@ -109,9 +107,10 @@ describe('LoginPage', () => {
   test('should show loading spinner on submit', async () => {
     makeSut()
 
-    simulateValidSubmit()
+    act(simulateValidSubmit)
+    clickSubmit()
 
-    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByTestId('spinner')).toBeInTheDocument())
   })
   test('should call Authentication with correct values', async () => {
     const { authenticationSpy } = makeSut()
@@ -120,18 +119,22 @@ describe('LoginPage', () => {
     const fakePassword = faker.internet.password()
 
     simulateValidSubmit(fakeEmail, fakePassword)
+    clickSubmit()
 
-    expect(authenticationSpy.params).toEqual({
-      email: fakeEmail,
-      password: fakePassword,
-    })
+    await waitFor(() =>
+      expect(authenticationSpy.params).toEqual({
+        email: fakeEmail,
+        password: fakePassword,
+      }),
+    )
   })
   test('should call Authentication only once', async () => {
     const { authenticationSpy } = makeSut()
 
     simulateValidSubmit()
+    clickSubmit()
     simulateValidSubmit()
-
+    await waitFor(clickSubmit)
     expect(authenticationSpy.callsCount).toBe(1)
   })
   test('should not call Authentication if form is invalid', async () => {
@@ -151,6 +154,7 @@ describe('LoginPage', () => {
     authenticationSpy.auth = throwError(error)
 
     simulateValidSubmit()
+    clickSubmit()
 
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
     expect(screen.getByTestId('error-wrap').children).toHaveLength(1)
@@ -159,6 +163,8 @@ describe('LoginPage', () => {
     const { authenticationSpy, setCurrentAccountMock } = makeSut()
 
     simulateValidSubmit()
+    clickSubmit()
+
     await waitFor(() => screen.getByTestId('form'))
     expect(setCurrentAccountMock).toHaveBeenCalledWith(authenticationSpy.result)
     expect(history.length).toBe(1)
@@ -171,6 +177,8 @@ describe('LoginPage', () => {
     setCurrentAccountMock.mockImplementationOnce(throwError(error))
 
     simulateValidSubmit()
+    clickSubmit()
+
     await waitFor(() => screen.getByTestId('form'))
 
     expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)

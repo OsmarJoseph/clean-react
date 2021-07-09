@@ -1,0 +1,13 @@
+.c-surveys-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .c-surveys-list {
+    flex-direction: column;
+  }
+}
