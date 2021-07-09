@@ -12,7 +12,7 @@ export type SurveysContextType = {
   setReload: (reload: boolean) => void
 }
 
-const initialState: SurveysContextType = {
+export const surveysInitialState: SurveysContextType = {
   surveys: [],
   setSurveys: (surveys: SurveyModel[]) => surveys,
   error: undefined,
@@ -35,10 +35,10 @@ export const SurveysReducer = (
   }
 }
 
-const SurveysContext = createContext<SurveysContextType>(initialState)
+const SurveysContext = createContext<SurveysContextType>(surveysInitialState)
 
 export function SurveysProvider({ children }: { children: JSX.Element }): JSX.Element {
-  const [state, dispatch] = useReducer(SurveysReducer, initialState)
+  const [state, dispatch] = useReducer(SurveysReducer, surveysInitialState)
   const value = {
     surveys: state.surveys,
     setSurveys: setSurveys(dispatch),

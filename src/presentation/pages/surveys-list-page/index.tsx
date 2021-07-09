@@ -14,11 +14,7 @@ type Props = {
 const SurveysListPageComponent = ({ loadSurveysList }: Props): JSX.Element => {
   const { reload, error, setSurveys, setError } = useSurveysContext()
   useEffect(() => {
-    try {
-      loadSurveysList.loadAll().then(setSurveys, setError)
-    } catch (error) {
-      setError(error)
-    }
+    loadSurveysList.loadAll().then(setSurveys, setError)
   }, [reload])
 
   return (

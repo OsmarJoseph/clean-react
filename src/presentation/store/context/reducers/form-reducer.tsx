@@ -29,7 +29,7 @@ export type FormContextType = {
   setIsFormValid: (value: boolean) => void
 }
 
-export const initialState = {
+export const formInitialState = {
   isLoading: false,
   setIsLoading: (value: boolean) => value,
   errorMessage: '',
@@ -47,10 +47,10 @@ export const initialState = {
   setIsFormValid: (value: boolean) => value,
 }
 
-const FormContext = createContext<FormContextType>(initialState)
+const FormContext = createContext<FormContextType>(formInitialState)
 
 export function FormProvider({ children }: { children: JSX.Element }): JSX.Element {
-  const [state, dispatch] = useReducer(FormReducer, initialState)
+  const [state, dispatch] = useReducer(FormReducer, formInitialState)
   const value = {
     isLoading: state.isLoading,
     setIsLoading: setIsLoading(dispatch),
