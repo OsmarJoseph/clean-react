@@ -1,8 +1,9 @@
+import { Authentication } from '@/domain/usecases'
 import { AuthenticationHttpPostClient, RemoteAuthentication } from '@/data/usecases'
-import { makeAxiosHttpClient, makeApiUrl } from '@/main/factories'
+import { makeAxiosHttpPostClient, makeApiUrl } from '@/main/factories'
 
-export const makeRemoteAuthentication = (): RemoteAuthentication =>
+export const makeRemoteAuthentication = (): Authentication =>
   new RemoteAuthentication(
     makeApiUrl('/login'),
-    makeAxiosHttpClient<AuthenticationHttpPostClient>(),
+    makeAxiosHttpPostClient<AuthenticationHttpPostClient>(),
   )

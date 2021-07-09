@@ -1,8 +1,13 @@
-import { HttpPostClient } from '@/data/protocols'
-import { AxiosHttpClient } from '@/infra/http'
+import { HttpGetClient, HttpPostClient } from '@/data/protocols'
+import { AxiosHttpGetClient, AxiosHttpPostClient } from '@/infra/http'
 
-export const makeAxiosHttpClient = <
+export const makeAxiosHttpGetClient = <
+  Constructor extends HttpGetClient.Constructor
+>(): AxiosHttpGetClient<Constructor> => {
+  return new AxiosHttpGetClient<Constructor>()
+}
+export const makeAxiosHttpPostClient = <
   Constructor extends HttpPostClient.Constructor
->(): AxiosHttpClient<Constructor> => {
-  return new AxiosHttpClient<Constructor>()
+>(): AxiosHttpPostClient<Constructor> => {
+  return new AxiosHttpPostClient<Constructor>()
 }

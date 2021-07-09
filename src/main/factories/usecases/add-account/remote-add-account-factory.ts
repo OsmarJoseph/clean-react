@@ -1,5 +1,6 @@
+import { AddAccount } from '@/domain/usecases'
 import { AddAccountHttpPostClient, RemoteAddAccount } from '@/data/usecases'
-import { makeAxiosHttpClient, makeApiUrl } from '@/main/factories'
+import { makeAxiosHttpPostClient, makeApiUrl } from '@/main/factories'
 
-export const makeRemoteAddAccount = (): RemoteAddAccount =>
-  new RemoteAddAccount(makeApiUrl('/signup'), makeAxiosHttpClient<AddAccountHttpPostClient>())
+export const makeRemoteAddAccount = (): AddAccount =>
+  new RemoteAddAccount(makeApiUrl('/signup'), makeAxiosHttpPostClient<AddAccountHttpPostClient>())
