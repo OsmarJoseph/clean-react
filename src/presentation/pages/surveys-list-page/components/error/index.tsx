@@ -1,3 +1,4 @@
+import './styles.scss'
 import { useSurveysContext } from '@/presentation/store/context'
 
 import React, { useCallback } from 'react'
@@ -13,7 +14,9 @@ export const Error = (): JSX.Element => {
 
   return (
     <div className="c-error-wrap">
-      <span data-testid="error">{error.message}</span>
+      <span className="c-error-wrap__text" data-testid="error">
+        {error.message}
+      </span>
       <button onClick={handleReloadClick} data-testid="reload">
         Recarregar
       </button>
