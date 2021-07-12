@@ -1,5 +1,7 @@
 import { LocalStorageAdapter } from '@/infra/cache'
 
+import { mockObject } from '@/tests/helpers'
+
 import 'jest-localstorage-mock'
 import faker from 'faker'
 
@@ -21,7 +23,7 @@ describe('LocalStorageAdapter', () => {
     test('should call localStorage with correct values', () => {
       const { sut } = makeSut()
       const key = faker.random.word()
-      const value = faker.random.objectElement<{ key: string; value: string }>()
+      const value = mockObject()
 
       sut.set(key, value)
 
@@ -32,7 +34,7 @@ describe('LocalStorageAdapter', () => {
     test('should call localStorage with correct values', () => {
       const { sut } = makeSut()
       const key = faker.random.word()
-      const value = faker.random.objectElement<{ key: string; value: string }>()
+      const value = mockObject()
 
       jest.spyOn(localStorage, 'getItem').mockReturnValueOnce(JSON.stringify(value))
 

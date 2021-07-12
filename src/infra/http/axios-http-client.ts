@@ -27,11 +27,14 @@ export class AxiosHttpPostClient<Constructor extends HttpPostClient.Constructor>
 }
 export class AxiosHttpGetClient<Constructor extends HttpGetClient.Constructor>
   implements HttpGetClient<Constructor> {
-  async get({ url }: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
+  async get({
+    url,
+    headers,
+  }: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
     let axiosResponse: AxiosResponse
 
     try {
-      axiosResponse = await axios.get(url)
+      axiosResponse = await axios.get(url, { headers })
     } catch (error) {
       axiosResponse = error.response
     }

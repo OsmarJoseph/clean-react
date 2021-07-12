@@ -1,4 +1,4 @@
-import { SetStorage } from '@/data/protocols'
+import { GetStorage, SetStorage } from '@/data/protocols'
 
 export class SetStorageMock implements SetStorage {
   key: string
@@ -7,5 +7,12 @@ export class SetStorageMock implements SetStorage {
   set(key: string, value: unknown): void {
     this.key = key
     this.value = value
+  }
+}
+export class GetStorageMock implements GetStorage {
+  key: string
+
+  get(key: string): void {
+    this.key = key
   }
 }

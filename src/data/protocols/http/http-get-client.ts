@@ -6,11 +6,12 @@ export interface HttpGetClient<Constructor extends HttpGetClient.Constructor> {
 
 export namespace HttpGetClient {
   export type Constructor = {
-    request?: { headers?: unknown }
+    request?: { headers?: Record<string, string> }
     response: { body: unknown }
   }
 
   export type Params = {
     url: string
+    headers?: Record<string, string>
   }
 }
