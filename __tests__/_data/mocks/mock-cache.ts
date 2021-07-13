@@ -1,5 +1,7 @@
 import { GetStorage, SetStorage } from '@/data/protocols'
 
+import { mockObject } from '@/tests/helpers'
+
 export class SetStorageMock implements SetStorage {
   key: string
   value: unknown
@@ -9,10 +11,12 @@ export class SetStorageMock implements SetStorage {
     this.value = value
   }
 }
-export class GetStorageMock implements GetStorage {
+export class GetStorageSpy implements GetStorage {
   key: string
+  value: any = mockObject()
 
-  get(key: string): void {
+  get(key: string): any {
     this.key = key
+    return this.value
   }
 }
