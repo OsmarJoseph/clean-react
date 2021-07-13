@@ -1,6 +1,7 @@
 import { UnexpectedError } from '@/domain/errors'
 import { LocalStorageAdapter } from '@/infra/cache'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
+import { accountKey } from '@/main/constants'
 
 import { throwError } from '@/tests/helpers'
 import { mockAccountModel } from '@/tests/_domain/mocks'
@@ -13,7 +14,7 @@ describe('CurrentAccountAdapter', () => {
       const account = mockAccountModel()
       const setSpy = jest.spyOn(LocalStorageAdapter.prototype, 'set')
       await setCurrentAccountAdapter(account)
-      expect(setSpy).toHaveBeenCalledWith('account', account)
+      expect(setSpy).toHaveBeenCalledWith(accountKey, account)
     })
 
     test('should throw if LocalStorage throws', async () => {
@@ -32,7 +33,7 @@ describe('CurrentAccountAdapter', () => {
       const expected = mockAccountModel()
       const getSpy = jest.spyOn(LocalStorageAdapter.prototype, 'get').mockReturnValueOnce(expected)
       const account = getCurrentAccountAdapter()
-      expect(getSpy).toHaveBeenCalledWith('account')
+      expect(getSpy).toHaveBeenCalledWith(accountKey)
       expect(account).toEqual(expected)
     })
 

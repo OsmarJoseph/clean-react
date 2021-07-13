@@ -1,4 +1,5 @@
 import { AuthorizeHttpGetClientDecorator } from '@/main/decorators'
+import { accessTokenHeader, accountKey } from '@/main/constants'
 
 import { mockAccountModel } from '@/tests/_domain/mocks'
 import { mockGetRequestParams, GetStorageSpy, HttpGetClientSpy } from '@/tests/_data/mocks'
@@ -24,7 +25,7 @@ describe('AuthorizeHttpGetClientDecorator', () => {
   test('should call GetStorage with correct value', async () => {
     const { sut, getStorageSpy } = makeSut()
     await sut.get(mockGetRequestParams())
-    expect(getStorageSpy.key).toBe('account')
+    expect(getStorageSpy.key).toBe(accountKey)
   })
   test('should not add headers if getStorage is invalid', async () => {
     const { sut, httpGetClientSpy } = makeSut()
@@ -42,7 +43,7 @@ describe('AuthorizeHttpGetClientDecorator', () => {
     expect(httpGetClientSpy.params.url).toBe(getRequestParams.url)
     expect(httpGetClientSpy.params.headers).toEqual({
       ...httpGetClientSpy.params.headers,
-      'x-access-token': getStorageSpy.value.accessToken,
+      [accessTokenHeader]: getStorageSpy.value.accessToken,
     })
   })
   test('should add headers to HttpGetClient if headers is not defined', async () => {
@@ -55,7 +56,7 @@ describe('AuthorizeHttpGetClientDecorator', () => {
     expect(httpGetClientSpy.params.url).toBe(getRequestParams.url)
     expect(httpGetClientSpy.params.headers).toEqual({
       ...httpGetClientSpy.params.headers,
-      'x-access-token': getStorageSpy.value.accessToken,
+      [accessTokenHeader]: getStorageSpy.value.accessToken,
     })
   })
   test('should add return the same result as HttpGetClient', async () => {

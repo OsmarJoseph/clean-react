@@ -1,4 +1,5 @@
 import { SignupMocks } from '.'
+import { accountKey } from '@/main/constants'
 
 import faker from 'faker'
 import { FormHelper, RequestsHelper } from '@/tests/cypress/helpers'
@@ -97,7 +98,7 @@ describe('SignupPage', () => {
 
     RequestsHelper.testUrl('/')
 
-    FormHelper.testLocalStorageItem('account')
+    FormHelper.testLocalStorageItem(accountKey)
   })
   it('should prevent multiple submits', () => {
     SignupMocks.mockOkRequest()
