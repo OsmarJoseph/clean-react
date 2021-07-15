@@ -9,7 +9,7 @@ type Constructor = {
 }
 
 type SutTypes = {
-  sut: AuthorizeHttpGetClientDecorator
+  sut: AuthorizeHttpGetClientDecorator<Constructor>
   getStorageSpy: GetStorageSpy
   httpGetClientSpy: HttpGetClientSpy<Constructor>
 }
@@ -17,7 +17,7 @@ type SutTypes = {
 const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy()
   const httpGetClientSpy = new HttpGetClientSpy<Constructor>()
-  const sut = new AuthorizeHttpGetClientDecorator(getStorageSpy, httpGetClientSpy)
+  const sut = new AuthorizeHttpGetClientDecorator<Constructor>(getStorageSpy, httpGetClientSpy)
   return { sut, getStorageSpy, httpGetClientSpy }
 }
 
