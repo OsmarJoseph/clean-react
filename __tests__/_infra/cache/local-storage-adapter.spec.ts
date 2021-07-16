@@ -29,6 +29,14 @@ describe('LocalStorageAdapter', () => {
 
       expect(localStorage.setItem).toHaveBeenCalledWith(key, JSON.stringify(value))
     })
+    test('should call localStorage.removeItem if value is null', () => {
+      const { sut } = makeSut()
+      const key = faker.random.word()
+
+      sut.set(key, undefined)
+
+      expect(localStorage.removeItem).toHaveBeenCalledWith(key)
+    })
   })
   describe('get', () => {
     test('should call localStorage with correct values', () => {
