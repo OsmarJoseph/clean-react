@@ -1,12 +1,11 @@
 import { AddAccount } from '@/domain/usecases'
 import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { HttpPostClient, HttpStatusCode } from '@/data/protocols'
-import { AddAccountHttpPostClient } from '@/data/usecases'
 
 export class RemoteAddAccount implements AddAccount {
   constructor(
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient<AddAccountHttpPostClient>,
+    private readonly httpPostClient: HttpPostClient<RemoteAddAccount.Client>,
   ) {}
 
   async add({
@@ -28,6 +27,20 @@ export class RemoteAddAccount implements AddAccount {
         throw new EmailInUseError()
       default:
         throw new UnexpectedError()
+    }
+  }
+}
+export namespace RemoteAddAccount {
+  export type Client = ClientRequest & ClientResponse
+
+  export type ClientRequest = {
+    request: {
+      body: AddAccount.Params
+    }
+  }
+  export type ClientResponse = {
+    response: {
+      body: AddAccount.Result
     }
   }
 }

@@ -11,10 +11,10 @@ export class AuthorizeHttpGetClientDecorator<Constructor extends HttpGetClient.C
 
   async get(params: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
     const account: AccountModel = this.getStorage.get(accountKey)
+
     if (account?.accessToken) {
       params.headers = { ...params.headers, [accessTokenHeader]: account.accessToken }
     }
-    console.log(params)
 
     return await this.httpGetClient.get(params)
   }

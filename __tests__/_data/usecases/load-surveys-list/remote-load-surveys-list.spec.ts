@@ -1,20 +1,19 @@
 import { UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
-import { LoadSurveysListHttpGetClient, RemoteLoadSurveysList } from '@/data/usecases'
+import { RemoteLoadSurveysList } from '@/data/usecases'
 
-import { HttpGetClientSpy } from '@/tests/_data/mocks'
-import { mockSurveyList } from '@/tests/_domain/mocks'
+import { HttpGetClientSpy, mockRemoteLoadSurveysListClientModelList } from '@/tests/_data/mocks'
 
 import faker from 'faker'
 
 type SutTypes = {
   sut: RemoteLoadSurveysList
-  httpGetClientSpy: HttpGetClientSpy<LoadSurveysListHttpGetClient>
+  httpGetClientSpy: HttpGetClientSpy<RemoteLoadSurveysList.Client>
   mockUrl: string
 }
 
 const makeSut = (): SutTypes => {
-  const httpGetClientSpy = new HttpGetClientSpy<LoadSurveysListHttpGetClient>()
+  const httpGetClientSpy = new HttpGetClientSpy<RemoteLoadSurveysList.Client>()
 
   const mockUrl = faker.internet.url()
   const sut = new RemoteLoadSurveysList(mockUrl, httpGetClientSpy)
@@ -71,9 +70,24 @@ describe('RemoteLoadSurveysList', () => {
 
   test('should return an SurveyModel list if HttpGetClient returns ok', async () => {
     const { sut, httpGetClientSpy } = makeSut()
-    const surveyListExpected = mockSurveyList()
+    const surveyListExpected = mockRemoteLoadSurveysListClientModelList()
     httpGetClientSpy.response.body = surveyListExpected
     const surveyListResult = await sut.loadAll()
-    expect(surveyListResult).toEqual(surveyListExpected)
+    expect(surveyListResult).toEqual([
+      {
+        id: surveyListExpected[0].id,
+        question: surveyListExpected[0].question,
+        answers: surveyListExpected[0].answers,
+        date: new Date(surveyListExpected[0].date),
+        didAnswer: surveyListExpected[0].didAnswer,
+      },
+      {
+        id: surveyListExpected[1].id,
+        question: surveyListExpected[1].question,
+        answers: surveyListExpected[1].answers,
+        date: new Date(surveyListExpected[1].date),
+        didAnswer: surveyListExpected[1].didAnswer,
+      },
+    ])
   })
 })
