@@ -1,9 +1,12 @@
 import { UnexpectedError } from '@/domain/errors'
 import { SurveysListPage } from '@/presentation/pages'
+import { ApiProvider } from '@/presentation/store/context'
 
 import { LoadSurveysListSpy } from '@/tests/_domain/mocks'
 
 import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -12,7 +15,13 @@ type SutTypes = {
 }
 
 const makeSut = (loadSurveysListSpy = new LoadSurveysListSpy()): SutTypes => {
-  render(<SurveysListPage loadSurveysList={loadSurveysListSpy} />)
+  render(
+    <ApiProvider setCurrentAccount={jest.fn()} getCurrentAccount={jest.fn()}>
+      <Router history={createMemoryHistory()}>
+        <SurveysListPage loadSurveysList={loadSurveysListSpy} />)
+      </Router>
+    </ApiProvider>,
+  )
   return { loadSurveysListSpy }
 }
 
