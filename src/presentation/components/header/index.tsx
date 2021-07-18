@@ -6,14 +6,15 @@ import React, { memo, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 
 export const HeaderComponent = (): JSX.Element => {
-  const { setCurrentAccount } = useApiContext()
+  const { setCurrentAccount, getCurrentAccount } = useApiContext()
+  const account = getCurrentAccount()
   const history = useHistory()
 
   const handleLogOutClick = useCallback(
     async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       event.preventDefault()
 
-      await setCurrentAccount(undefined)
+      await setCurrentAccount(null)
       history.replace('/login')
     },
     [],
@@ -23,7 +24,9 @@ export const HeaderComponent = (): JSX.Element => {
       <div className="c-header__content">
         <Logo className="c-header__logo" />
         <div className="c-header__logout">
-          <span className="c-header__logout-username">Osmar</span>
+          <span className="c-header__logout-username" data-testid="username">
+            {account.name}
+          </span>
           <a
             className="c-header__logout-link"
             href="#"

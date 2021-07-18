@@ -2,7 +2,7 @@ import { UnexpectedError } from '@/domain/errors'
 import { SurveysListPage } from '@/presentation/pages'
 import { ApiProvider } from '@/presentation/store/context'
 
-import { LoadSurveysListSpy } from '@/tests/_domain/mocks'
+import { LoadSurveysListSpy, mockAccountModel } from '@/tests/_domain/mocks'
 
 import React from 'react'
 import { Router } from 'react-router-dom'
@@ -16,7 +16,7 @@ type SutTypes = {
 
 const makeSut = (loadSurveysListSpy = new LoadSurveysListSpy()): SutTypes => {
   render(
-    <ApiProvider setCurrentAccount={jest.fn()} getCurrentAccount={jest.fn()}>
+    <ApiProvider setCurrentAccount={jest.fn()} getCurrentAccount={() => mockAccountModel()}>
       <Router history={createMemoryHistory()}>
         <SurveysListPage loadSurveysList={loadSurveysListSpy} />)
       </Router>
