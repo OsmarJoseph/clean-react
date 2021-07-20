@@ -2,10 +2,12 @@ import './styles.scss'
 import { SurveysList, Error } from './components'
 import { LoadSurveysList } from '@/domain/usecases'
 import { Footer, Header } from '@/presentation/components'
-import { SurveysProvider, useSurveysContext } from '@/presentation/store/context'
-
-import React, { useEffect } from 'react'
+import { SurveysProvider, useApiContext, useSurveysContext } from '@/presentation/store/context'
 import { withProvider } from '@/presentation/helpers'
+
+import React, { useCallback, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { AccessDeniedError } from '@/domain/errors'
 
 type Props = {
   loadSurveysList: LoadSurveysList
@@ -13,8 +15,20 @@ type Props = {
 
 const SurveysListPageComponent = ({ loadSurveysList }: Props): JSX.Element => {
   const { reload, error, setSurveys, setError } = useSurveysContext()
+  const { setCurrentAccount } = useApiContext()
+  const history = useHistory()
+
+  const logoutOrShowError = useCallback(async (error: Error): Promise<void> => {
+    if (error instanceof AccessDeniedError) {
+      await setCurrentAccount(null)
+      history.replace('/login')
+    } else {
+      setError(error)
+    }
+  }, [])
+
   useEffect(() => {
-    loadSurveysList.loadAll().then(setSurveys, setError)
+    loadSurveysList.loadAll().then(setSurveys, logoutOrShowError)
   }, [reload])
 
   return (

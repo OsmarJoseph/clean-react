@@ -1,4 +1,4 @@
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { RemoteLoadSurveysList } from '@/data/usecases'
 
@@ -47,7 +47,7 @@ describe('RemoteLoadSurveysList', () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response.statusCode = HttpStatusCode.forbidden
     const responsePromise = sut.loadAll()
-    await expect(responsePromise).rejects.toThrow(new UnexpectedError())
+    await expect(responsePromise).rejects.toThrow(new AccessDeniedError())
   })
   test('should throw UnexpectedError if HttpGetClient returns notFound', async () => {
     const { sut, httpGetClientSpy } = makeSut()
