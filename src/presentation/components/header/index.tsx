@@ -1,21 +1,20 @@
 import './styles.scss'
 import { Logo } from '@/presentation/components'
 import { useApiContext } from '@/presentation/store/context'
+import { useLogout } from '@/presentation/hooks'
 
 import React, { memo, useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
 
 export const HeaderComponent = (): JSX.Element => {
-  const { setCurrentAccount, getCurrentAccount } = useApiContext()
+  const { getCurrentAccount } = useApiContext()
   const account = getCurrentAccount()
-  const history = useHistory()
+  const logout = useLogout()
 
   const handleLogOutClick = useCallback(
     async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
       event.preventDefault()
 
-      await setCurrentAccount(null)
-      history.replace('/login')
+      await logout()
     },
     [],
   )
