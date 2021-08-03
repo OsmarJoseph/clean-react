@@ -12,7 +12,7 @@ export const SurveyItem = ({ survey: { didAnswer, question, date } }: Props): JS
   const iconName = didAnswer ? 'thumbUp' : 'thumbDown'
 
   const day = date.getDate().toString().padStart(2, '0')
-  const month = date.toLocaleString('pt-BR', { month: 'short' }).replace('.', '')
+  const month = date.toLocaleString('pt-BR', { month: 'short' }).replace('.', '').toLowerCase()
   const year = date.getFullYear()
 
   return (
