@@ -1,8 +1,10 @@
 import { SignupMocks } from '.'
+import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { accountKey } from '@/main/constants'
 
+import { FormHelpers, Helpers } from '@/tests/cypress/helpers'
+
 import faker from 'faker'
-import { FormHelper, RequestsHelper } from '@/tests/cypress/helpers'
 
 const simulateValidSubmit = (actionTrigger?: 'click' | 'dbclick' | 'enter'): void => {
   cy.getByTestId('name').type(faker.internet.email())
@@ -11,7 +13,7 @@ const simulateValidSubmit = (actionTrigger?: 'click' | 'dbclick' | 'enter'): voi
   cy.getByTestId('password').type(password)
   cy.getByTestId('passwordConfirmation').type(password)
 
-  FormHelper.clickSubmit(actionTrigger)
+  FormHelpers.clickSubmit(actionTrigger)
 }
 
 describe('SignupPage', () => {
@@ -19,42 +21,42 @@ describe('SignupPage', () => {
     cy.visit('signup')
   })
   it('should load with correct initial state', () => {
-    FormHelper.testInputStatus('name', 'Campo Obrigatório')
-    FormHelper.testInputStatus('email', 'Campo Obrigatório')
-    FormHelper.testInputStatus('password', 'Campo Obrigatório')
-    FormHelper.testInputStatus('passwordConfirmation', 'Campo Obrigatório')
+    FormHelpers.testInputStatus('name', 'Campo Obrigatório')
+    FormHelpers.testInputStatus('email', 'Campo Obrigatório')
+    FormHelpers.testInputStatus('password', 'Campo Obrigatório')
+    FormHelpers.testInputStatus('passwordConfirmation', 'Campo Obrigatório')
 
     cy.getByTestId('submit').should('have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
   it('should present error state if form is invalid', () => {
     cy.getByTestId('name').type(faker.random.alphaNumeric(2))
-    FormHelper.testInputStatus('name', 'O campo name é invalido')
+    FormHelpers.testInputStatus('name', 'O campo name é invalido')
 
     cy.getByTestId('email').type(faker.random.word())
-    FormHelper.testInputStatus('email', 'O campo email é invalido')
+    FormHelpers.testInputStatus('email', 'O campo email é invalido')
 
     cy.getByTestId('password').type(faker.random.alphaNumeric(3))
-    FormHelper.testInputStatus('password', 'O campo password é invalido')
+    FormHelpers.testInputStatus('password', 'O campo password é invalido')
 
     cy.getByTestId('passwordConfirmation').type(faker.random.alphaNumeric(4))
-    FormHelper.testInputStatus('passwordConfirmation', 'O campo passwordConfirmation é invalido')
+    FormHelpers.testInputStatus('passwordConfirmation', 'O campo passwordConfirmation é invalido')
 
     cy.getByTestId('submit').should('have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
   it('should present valid state if form is valid', () => {
     cy.getByTestId('name').type(faker.name.findName())
-    FormHelper.testInputStatus('name')
+    FormHelpers.testInputStatus('name')
 
     cy.getByTestId('email').type(faker.internet.email())
-    FormHelper.testInputStatus('email')
+    FormHelpers.testInputStatus('email')
 
     const password = faker.random.alphaNumeric(5)
     cy.getByTestId('password').type(password)
-    FormHelper.testInputStatus('password')
+    FormHelpers.testInputStatus('password')
     cy.getByTestId('passwordConfirmation').type(password)
-    FormHelper.testInputStatus('passwordConfirmation')
+    FormHelpers.testInputStatus('passwordConfirmation')
 
     cy.getByTestId('submit').should('not.have.attr', 'disabled')
     cy.getByTestId('error-wrap').should('not.have.descendants')
@@ -63,48 +65,40 @@ describe('SignupPage', () => {
     SignupMocks.mockEmailInUseErrorRequest()
     simulateValidSubmit()
 
-    FormHelper.testMainError('You are using an email that already exists')
+    FormHelpers.testMainError(EmailInUseError.message)
 
-    RequestsHelper.testUrl('/signup')
+    Helpers.testUrl('/signup')
   })
 
   it('should present UnexpectedError on 400', () => {
     SignupMocks.mockUnexpectedErrorRequest()
     simulateValidSubmit()
 
-    FormHelper.testMainError('Something wrong happened, try again.')
+    FormHelpers.testMainError(UnexpectedError.message)
 
-    RequestsHelper.testUrl('/signup')
-  })
-  it('should present UnexpectedError if invalid data is returned', () => {
-    SignupMocks.mockInvalidDataRequest()
-    simulateValidSubmit()
-
-    FormHelper.testMainError('Something wrong happened, try again.')
-
-    RequestsHelper.testUrl('/signup')
+    Helpers.testUrl('/signup')
   })
   it('should not call submit if form is invalid', () => {
     SignupMocks.mockOkRequest()
     cy.getByTestId('email').type(faker.internet.email()).type('{enter}')
 
-    RequestsHelper.testHttpCallsCount(0)
+    Helpers.testHttpCallsCount(0)
   })
   it('should save account if valid credentials are provided', () => {
     SignupMocks.mockOkRequest()
     simulateValidSubmit()
 
-    FormHelper.testMainError()
+    FormHelpers.testMainError()
 
-    RequestsHelper.testUrl('/')
+    Helpers.testUrl('/')
 
-    FormHelper.testLocalStorageItem(accountKey)
+    Helpers.testLocalStorageItem(accountKey)
   })
   it('should prevent multiple submits', () => {
     SignupMocks.mockOkRequest()
 
     simulateValidSubmit('dbclick')
 
-    RequestsHelper.testHttpCallsCount(1)
+    Helpers.testHttpCallsCount(1)
   })
 })

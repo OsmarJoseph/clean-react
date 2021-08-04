@@ -15,10 +15,6 @@ export const testMainError = (error?: string): void => {
   else cy.getByTestId('main-error').should('not.exist', error)
 }
 
-export const testLocalStorageItem = (key: string): void => {
-  cy.window().then((window) => assert.isOk(window.localStorage.getItem(key)))
-}
-
 export const clickSubmit = (actionTrigger?: 'click' | 'dbclick' | 'enter'): void => {
   switch (actionTrigger) {
     case 'click':

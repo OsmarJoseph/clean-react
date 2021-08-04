@@ -1,2 +1,3 @@
-export * as FormHelper from './form-helper'
-export * as RequestsHelper from './mock-requests'
+export * as FormHelpers from './form-helpers'
+export * as RequestHelpers from './mock-requests'
+export * as Helpers from './helpers'

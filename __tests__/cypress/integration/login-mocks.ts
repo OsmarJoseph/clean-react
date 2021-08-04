@@ -1,15 +1,12 @@
-import { RequestsHelper } from '@/tests/cypress/helpers'
+import { RequestHelpers } from '@/tests/cypress/helpers'
 
 import faker from 'faker'
 
 export const mockInvalidCredentialsRequest = (): void =>
-  RequestsHelper.mockInvalidRequest('POST', '/api/login')
+  RequestHelpers.mockUnauthorizedRequest('POST', '/api/login')
 
 export const mockUnexpectedErrorRequest = (): void =>
-  RequestsHelper.mockUnexpectedErrorRequest('POST', '/api/login')
-
-export const mockInvalidDataRequest = (): void =>
-  RequestsHelper.mockInvalidDataRequest('POST', '/api/login')
+  RequestHelpers.mockServerErrorRequest('POST', '/api/login')
 
 export const mockOkRequest = (): void => {
   cy.intercept('POST', '/api/login', {
