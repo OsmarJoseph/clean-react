@@ -1,5 +1,5 @@
 import { AuthorizeHttpGetClientDecorator } from '@/main/decorators'
-import { accessTokenHeader, accountKey } from '@/main/constants'
+import { accessTokenHeader, accountKey } from '@/constants'
 
 import { mockAccountModel } from '@/tests/_domain/mocks'
 import { mockGetRequestParams, GetStorageSpy, HttpGetClientSpy } from '@/tests/_data/mocks'

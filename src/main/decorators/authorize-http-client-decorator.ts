@@ -1,6 +1,6 @@
 import { AccountModel } from '@/domain/models'
 import { GetStorage, HttpGetClient, HttpResponse } from '@/data/protocols'
-import { accessTokenHeader, accountKey } from '@/main/constants'
+import { accessTokenHeader, accountKey } from '@/constants'
 
 export class AuthorizeHttpGetClientDecorator<Constructor extends HttpGetClient.Constructor>
   implements HttpGetClient<Constructor> {

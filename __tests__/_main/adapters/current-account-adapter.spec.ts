@@ -1,6 +1,6 @@
 import { LocalStorageAdapter } from '@/infra/cache'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
-import { accountKey } from '@/main/constants'
+import { accountKey } from '@/constants'
 
 import { throwError } from '@/tests/helpers'
 import { mockAccountModel } from '@/tests/_domain/mocks'
