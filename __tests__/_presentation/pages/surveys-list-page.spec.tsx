@@ -3,7 +3,7 @@ import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { SurveysListPage } from '@/presentation/pages'
 import { ApiProvider } from '@/presentation/store/context'
 
-import { LoadSurveysListSpy, mockAccountModel } from '@/tests/_domain/mocks'
+import { LoadSurveysListSpy, mockAccountModel } from '@/tests/_domain'
 
 import React from 'react'
 import { Router } from 'react-router-dom'

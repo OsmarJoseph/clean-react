@@ -1,5 +1,5 @@
 import { FieldValidation } from '@/validation/protocols'
-import { InvalidFieldError } from '../errors'
+import { InvalidFieldError } from '@/validation/errors'
 
 export class MinLengthValidation implements FieldValidation {
   constructor(readonly field: string, private readonly minLength: number) {}

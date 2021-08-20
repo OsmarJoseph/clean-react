@@ -2,9 +2,9 @@ import { EmailInUseError } from '@/domain/errors'
 import { SignUpPage } from '@/presentation/pages'
 import { ApiProvider } from '@/presentation/store/context'
 
-import { AddAccountSpy } from '@/tests/_domain/mocks'
+import { AddAccountSpy } from '@/tests/_domain'
 import { Helper, throwError } from '@/tests/helpers'
-import { ValidationStub } from '@/tests/_presentation/mocks'
+import { ValidationStub } from '@/tests/_presentation'
 
 import React from 'react'
 import { createMemoryHistory } from 'history'

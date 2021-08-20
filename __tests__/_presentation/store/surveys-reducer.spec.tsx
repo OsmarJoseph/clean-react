@@ -1,6 +1,6 @@
 import { surveysInitialState } from '@/presentation/store/context'
 
-import { mockSurveyList } from '@/tests/_domain/mocks'
+import { mockSurveyList } from '@/tests/_domain'
 
 import faker from 'faker'
 

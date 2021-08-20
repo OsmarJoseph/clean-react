@@ -1,7 +1,7 @@
 import { AccountModel } from '@/domain/models'
 import { Header } from '@/presentation/components'
 
-import { mockAccountModel } from '@/tests/_domain/mocks'
+import { mockAccountModel } from '@/tests/_domain'
 
 import React from 'react'
 import { Router } from 'react-router-dom'

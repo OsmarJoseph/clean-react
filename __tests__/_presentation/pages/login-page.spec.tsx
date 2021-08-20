@@ -1,8 +1,8 @@
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { LoginPage } from '@/presentation/pages'
 
-import { AuthenticationSpy } from '@/tests/_domain/mocks'
-import { ValidationStub } from '@/tests/_presentation/mocks'
+import { AuthenticationSpy } from '@/tests/_domain'
+import { ValidationStub } from '@/tests/_presentation'
 import { Helper, throwError } from '@/tests/helpers'
 
 import React from 'react'

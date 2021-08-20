@@ -1,7 +1,7 @@
 import { PrivateRoute } from '@/presentation/middlewares'
 import { ApiProvider } from '@/presentation/store/context'
 
-import { mockAccountModel } from '@/tests/_domain/mocks'
+import { mockAccountModel } from '@/tests/_domain'
 
 import React from 'react'
 import { Router } from 'react-router-dom'

@@ -13,6 +13,7 @@ export class RemoteLoadSurveysList implements LoadSurveysList {
     const { httpGetClient, url } = this
     const httpResponse = await httpGetClient.get({ url })
     const remoteSurveys = this.mapSurveys(httpResponse.body)
+
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok:
         return remoteSurveys

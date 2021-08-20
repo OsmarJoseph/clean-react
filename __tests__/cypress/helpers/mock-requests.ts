@@ -16,6 +16,17 @@ export const mockServerErrorRequest = (method: 'POST' | 'GET', url: RouteMatcher
   })
 }
 
+export const mockOkRequest = (
+  method: 'POST' | 'GET',
+  url: RouteMatcher,
+  response: unknown,
+): void => {
+  cy.intercept(method, url, {
+    statusCode: 200,
+    body: response,
+  }).as('request')
+}
+
 export const mockInvalidDataRequest = (method: 'POST' | 'GET', url: RouteMatcher): void => {
   cy.intercept(method, url, {
     statusCode: 200,

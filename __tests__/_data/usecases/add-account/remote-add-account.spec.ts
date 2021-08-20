@@ -2,8 +2,8 @@ import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { RemoteAddAccount } from '@/data/usecases'
 
-import { mockAccountModel, mockAddAccountParams } from '@/tests/_domain/mocks'
-import { HttpPostClientSpy } from '@/tests/_data/mocks'
+import { mockAccountModel, mockAddAccountParams } from '@/tests/_domain'
+import { HttpPostClientSpy } from '@/tests/_data'
 
 import faker from 'faker'
 

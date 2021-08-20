@@ -1,7 +1,7 @@
 import { AxiosHttpGetClient } from '@/infra/http'
 
-import { mockGetRequestParams } from '@/tests/_data/mocks'
-import { mockAxios, mockHttpResponse } from '@/tests/_infra/mocks'
+import { mockGetRequestParams } from '@/tests/_data'
+import { mockAxios, mockHttpResponse } from '@/tests/_infra'
 
 import axios from 'axios'
 

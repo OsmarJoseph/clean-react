@@ -1,7 +1,7 @@
 import { iconsEnum } from '@/presentation/components'
 import { SurveyItem } from '@/presentation/pages/surveys-list-page/components'
 
-import { mockSurveyModel } from '@/tests/_domain/mocks'
+import { mockSurveyModel } from '@/tests/_domain'
 
 import React from 'react'
 import { render, screen } from '@testing-library/react'

@@ -2,8 +2,8 @@ import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { RemoteAuthentication } from '@/data/usecases'
 
-import { mockAccountModel, mockAuthenticationParams } from '@/tests/_domain/mocks'
-import { HttpPostClientSpy } from '@/tests/_data/mocks'
+import { mockAccountModel, mockAuthenticationParams } from '@/tests/_domain'
+import { HttpPostClientSpy } from '@/tests/_data'
 
 import faker from 'faker'
 

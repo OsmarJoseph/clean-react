@@ -2,7 +2,7 @@
   "extends": "../../tsconfig-eslint.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": ["es5", "dom"],
+    "lib": ["es2017", "dom"],
     "types": ["cypress"],
     "esModuleInterop": true
   },

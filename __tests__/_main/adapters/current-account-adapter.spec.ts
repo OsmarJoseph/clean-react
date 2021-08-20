@@ -3,7 +3,7 @@ import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapt
 import { accountKey } from '@/constants'
 
 import { throwError } from '@/tests/helpers'
-import { mockAccountModel } from '@/tests/_domain/mocks'
+import { mockAccountModel } from '@/tests/_domain'
 
 jest.mock('@/infra/cache/local-storage-adapter')
 

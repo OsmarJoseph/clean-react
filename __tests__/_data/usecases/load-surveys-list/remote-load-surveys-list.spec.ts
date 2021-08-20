@@ -2,7 +2,7 @@ import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols'
 import { RemoteLoadSurveysList } from '@/data/usecases'
 
-import { HttpGetClientSpy, mockRemoteLoadSurveysListClientModelList } from '@/tests/_data/mocks'
+import { HttpGetClientSpy, mockRemoteLoadSurveysListClientModelList } from '@/tests/_data'
 
 import faker from 'faker'
 
