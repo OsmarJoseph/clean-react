@@ -18,6 +18,7 @@ const config: Configuration = merge(common, {
     react: 'React',
     'react-dom': 'ReactDOM',
     'react-router-dom': 'ReactRouterDOM',
+    axios: 'axios',
   },
   module: {
     rules: [
