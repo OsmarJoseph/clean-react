@@ -1,28 +1,15 @@
+import { common, Configuration } from './webpack.common'
+
 import * as path from 'path'
-import {
-  HotModuleReplacementPlugin,
-  Configuration as WebpackConfiguration,
-  EnvironmentPlugin,
-} from 'webpack'
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server'
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
+import { HotModuleReplacementPlugin } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import sass from 'sass'
+import merge from 'webpack-merge'
 
-interface Configuration extends WebpackConfiguration {
-  devServer: WebpackDevServerConfiguration
-}
-
-const config: Configuration = {
+const config: Configuration = merge(common, {
   mode: 'development',
   target: 'web',
-  entry: './src/main/index.tsx',
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', 'scss'],
-    plugins: [new TsconfigPathsPlugin()],
-  },
   devServer: {
     contentBase: './public',
     open: true,
@@ -33,7 +20,6 @@ const config: Configuration = {
       'Access-Control-Allow-Origin': '*',
     },
   },
-  stats: 'minimal',
   module: {
     rules: [
       {
@@ -65,16 +51,14 @@ const config: Configuration = {
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve('public', 'template.dev.html'),
+    }),
+    new HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve('public/index.html'),
-    }),
-    new HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin(),
-    new EnvironmentPlugin({ API_URL: 'http://fordevs.herokuapp.com/api' }),
   ],
-}
+})
 
 export default config

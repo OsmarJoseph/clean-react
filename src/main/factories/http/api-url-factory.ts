@@ -1,1 +1,3 @@
-export const makeApiUrl = (path: string): string => `${process.env.API_URL}${path}`
+import { env } from '@/main/config'
+
+export const makeApiUrl = (path: string): string => `${env.apiUrl}${path}`
