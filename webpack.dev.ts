@@ -20,6 +20,7 @@ const config: Configuration = merge(common, {
       'Access-Control-Allow-Origin': '*',
     },
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {

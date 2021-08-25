@@ -3,6 +3,7 @@ import * as path from 'path'
 import { Configuration } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin/'
 import sass from 'sass'
 import merge from 'webpack-merge'
 
@@ -56,6 +57,9 @@ const config: Configuration = merge(common, {
     }),
     new MiniCssExtractPlugin({
       filename: '[name]-[fullhash].css',
+    }),
+    new FaviconsWebpackPlugin({
+      logo: path.resolve('public', 'favicon.png'),
     }),
   ],
 })
