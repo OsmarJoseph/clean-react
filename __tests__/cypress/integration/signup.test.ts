@@ -105,6 +105,7 @@ describe('SignupPage', () => {
     signUp.mockSuccessRequest()
 
     simulateValidSubmit('dbclick')
+    cy.wait('@request')
 
     testHttpCallsCount(1)
   })

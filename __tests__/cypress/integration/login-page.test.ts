@@ -89,7 +89,7 @@ describe('LoginPage', () => {
     login.mockSuccessRequest()
 
     simulateValidSubmit('dbclick')
-
+    cy.wait('@request')
     testHttpCallsCount(1)
   })
 })

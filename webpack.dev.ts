@@ -12,7 +12,6 @@ const config: Configuration = merge(common, {
   target: 'web',
   devServer: {
     contentBase: './public',
-    open: true,
     historyApiFallback: true,
     hot: true,
     port: 3000,
