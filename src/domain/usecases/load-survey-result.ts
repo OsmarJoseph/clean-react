@@ -5,5 +5,5 @@ export interface LoadSurveyResult {
 }
 
 export namespace LoadSurveyResult {
-  export type Result = SurveyResult[]
+  export type Result = SurveyResult
 }

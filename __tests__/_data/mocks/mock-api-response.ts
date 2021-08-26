@@ -1,4 +1,4 @@
-import { RemoteLoadSurveysList } from '@/data/usecases'
+import { RemoteLoadSurveyResult, RemoteLoadSurveysList } from '@/data/usecases'
 
 import faker from 'faker'
 
@@ -14,3 +14,21 @@ export const mockRemoteLoadSurveysListClientModelList = (): RemoteLoadSurveysLis
   mockRemoteLoadSurveysListClientModel(),
   mockRemoteLoadSurveysListClientModel(),
 ]
+
+export const mockRemoteLoadSurveyResultClientModelList = (): RemoteLoadSurveyResult.ClientModel => ({
+  question: faker.random.words(),
+  date: faker.date.recent().toISOString(),
+  answers: [
+    {
+      image: faker.image.imageUrl(),
+      answer: faker.random.word(),
+      count: faker.datatype.number(),
+      percent: faker.datatype.number(),
+    },
+    {
+      answer: faker.random.word(),
+      count: faker.datatype.number(),
+      percent: faker.datatype.number(),
+    },
+  ],
+})
