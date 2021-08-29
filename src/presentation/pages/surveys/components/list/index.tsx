@@ -1,6 +1,6 @@
 import './styles.scss'
 import { useSurveysContext } from '@/presentation/store/context'
-import { SurveyItem, EmptySurveyItemList } from '@/presentation/pages/surveys-list-page/components'
+import { SurveyItem, EmptySurveyItemList } from '@/presentation/pages/surveys/components'
 
 import React from 'react'
 

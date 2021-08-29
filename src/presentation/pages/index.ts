@@ -1,3 +1,3 @@
-export * from './login-page'
-export * from './signup-page'
-export * from './surveys-list-page'
+export * from './login'
+export * from './signup'
+export * from './surveys'

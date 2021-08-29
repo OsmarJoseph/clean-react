@@ -1,5 +1,5 @@
 import { iconsEnum } from '@/presentation/components'
-import { SurveyItem } from '@/presentation/pages/surveys-list-page/components'
+import { SurveyItem } from '@/presentation/pages/surveys/components'
 
 import { mockSurveyModel } from '@/tests/_domain'
 
