@@ -31,4 +31,5 @@ export const mockRemoteLoadSurveyResultClientModelList = (): RemoteLoadSurveyRes
       percent: faker.datatype.number(),
     },
   ],
+  isCurrentAccountAnswer: faker.datatype.boolean(),
 })

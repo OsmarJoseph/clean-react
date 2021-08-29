@@ -67,8 +67,7 @@ describe('RemoteLoadSurveyResult', () => {
     httpGetClientSpy.response.body = surveyResult
     const surveyListResult = await sut.load()
     expect(surveyListResult).toEqual({
-      question: surveyResult.question,
-      answers: surveyResult.answers,
+      ...surveyResult,
       date: new Date(surveyResult.date),
     })
   })
