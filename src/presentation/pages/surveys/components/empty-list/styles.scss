@@ -1,4 +1,5 @@
 @import '../../../../styles/tokens/color.scss';
+@import '../../../../styles/animations.scss';
 
 .c-empty-survey-item {
   height: 250px;
@@ -37,11 +38,5 @@
 @media only screen and (max-width: 600px) {
   .c-empty-survey-item {
     flex-basis: 100%;
-  }
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
   }
 }
