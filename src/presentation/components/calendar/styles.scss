@@ -1,0 +1,27 @@
+@import '../../styles/tokens/color.scss';
+
+.c-time {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 100px;
+  background-color: $primaryLight;
+  color: $white;
+  border-radius: 8px;
+
+  &__day {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  &__month {
+    font-size: 24px;
+    text-transform: lowercase;
+    margin: 2px 0;
+  }
+  &__year {
+    font-size: 16px;
+  }
+}

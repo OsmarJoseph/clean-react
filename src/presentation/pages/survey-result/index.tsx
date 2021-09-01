@@ -1,17 +1,18 @@
 import './styles.scss'
-import { Footer, Header, Spinner } from '@/presentation/components'
+import { Calendar, Footer, Header, Loading } from '@/presentation/components'
 
 import React from 'react'
 import FlipMove from 'react-flip-move'
 
-type Props = {}
-
-export const SurveyResultPage = (props: Props): JSX.Element => {
+export const SurveyResultPage = (): JSX.Element => {
   return (
     <div className="c-survey-result">
       <Header />
       <div className="c-survey-result__content">
-        <h2 className="c-survey-result__content-title">Pergunta</h2>
+        <hgroup className="c-survey-result__hgroup">
+          <Calendar date={new Date()} className="c-survey-result__time" />
+          <h2 className="c-survey-result__title">Pergunta</h2>
+        </hgroup>
         <FlipMove className="c-survey-result__items">
           <li className="c-survey-result__item">
             <img src="" alt="" className="c-survey-result__item-image" />
@@ -20,12 +21,7 @@ export const SurveyResultPage = (props: Props): JSX.Element => {
           </li>
         </FlipMove>
         <button className="c-survey-result__back-button">Voltar</button>
-        <div className="c-survey-result__loading">
-          <div className="c-survey-result__loading-element">
-            <span className="c-survey-result__loading-element-text">Aguarde ...</span>
-            <Spinner isNegative />
-          </div>
-        </div>
+        <Loading />
       </div>
       <Footer />
     </div>
