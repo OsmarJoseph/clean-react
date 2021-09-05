@@ -5,7 +5,7 @@ import React from 'react'
 
 export const Loading = (): JSX.Element => {
   return (
-    <div className="c-loading">
+    <div className="c-loading" data-testid="loading">
       <div className="c-loading__element">
         <span className="c-loading__element-text">Aguarde ...</span>
         <Spinner isNegative />

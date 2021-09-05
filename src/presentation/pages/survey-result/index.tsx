@@ -1,15 +1,31 @@
 import './styles.scss'
-import { Calendar, Footer, Header } from '@/presentation/components'
+import { SurveyResult } from '@/domain/models'
+import { LoadSurveyResult } from '@/domain/usecases'
+import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
 
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import FlipMove from 'react-flip-move'
 
-export const SurveyResultPage = (): JSX.Element => {
+type Props = {
+  loadSurveyResult: LoadSurveyResult
+}
+
+export const SurveyResultPage = ({ loadSurveyResult }: Props): JSX.Element => {
+  const [isLoading, setisLoading] = useState(false)
+  const [error, setError] = useState()
+  const [surveyResult, setSurveyResult] = useState<SurveyResult>()
+
+  useEffect(function loadSurveysResult() {
+    loadSurveyResult
+      .load()
+      .then(() => {})
+      .catch(() => {})
+  }, [])
   return (
     <div className="c-survey-result">
       <Header />
-      <div className="c-survey-result__content">
-        {true && (
+      <div data-testid="content" className="c-survey-result__content">
+        {surveyResult && (
           <Fragment>
             <hgroup className="c-survey-result__hgroup">
               <Calendar date={new Date()} className="c-survey-result__calendar" />
@@ -23,7 +39,8 @@ export const SurveyResultPage = (): JSX.Element => {
               </li>
             </FlipMove>
             <button className="c-survey-result__back-button">Voltar</button>
-            {/* <Loading /> */}
+            {isLoading && <Loading />}
+            {error && <Error error={error} handleReloadClick={() => {}} />}
           </Fragment>
         )}
       </div>

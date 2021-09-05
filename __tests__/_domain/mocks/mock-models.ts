@@ -1,4 +1,4 @@
-import { AccountModel, SurveyModel } from '@/domain/models'
+import { AccountModel, SurveyModel, SurveyResult } from '@/domain/models'
 import { AddAccount, Authentication } from '@/domain/usecases'
 
 import faker from 'faker'
@@ -29,6 +29,20 @@ export const mockSurveyModel = (): SurveyModel => ({
   answers: [{ image: faker.image.imageUrl(), answer: faker.random.word() }],
   date: faker.date.recent(),
   didAnswer: faker.datatype.boolean(),
+})
+
+export const mockSurveyResultModel = (): SurveyResult => ({
+  question: faker.random.words(),
+  date: faker.date.recent(),
+  answers: [
+    {
+      image: faker.image.imageUrl(),
+      answer: faker.random.word(),
+      count: faker.datatype.number(),
+      percent: faker.datatype.number(100),
+    },
+  ],
+  isCurrentAccountAnswer: faker.datatype.boolean(),
 })
 
 export const mockSurveyList = (): SurveyModel[] => [mockSurveyModel(), mockSurveyModel()]
