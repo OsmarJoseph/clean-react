@@ -68,10 +68,10 @@ const SurveyResultPageComponent = ({ loadSurveyResult }: Props): JSX.Element => 
                         data-testid="image"
                       />
                     )}
-                    <span className="c-survey-result__answer" data-testid="answer">
+                    <span className="c-survey-result__item-answer" data-testid="answer">
                       {answer}
                     </span>
-                    <span className="c-survey-result__percentage" data-testid="percent ">
+                    <span className="c-survey-result__item-percentage" data-testid="percent ">
                       {percent}%
                     </span>
                   </li>

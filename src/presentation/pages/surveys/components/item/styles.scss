@@ -41,12 +41,18 @@
   }
   &__footer {
     background-color: $primary;
-    color: $white;
-    line-height: 40px;
-    text-transform: lowercase;
-    text-align: center;
     cursor: pointer;
     border-radius: 0 0 8px 8px;
+    &-link {
+      display: block;
+
+      text-transform: lowercase;
+      text-align: center;
+      text-decoration: none;
+
+      color: $white;
+      line-height: 40px;
+    }
     &:hover {
       background-color: $primaryDark;
     }
