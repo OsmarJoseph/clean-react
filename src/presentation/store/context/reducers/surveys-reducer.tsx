@@ -1,5 +1,10 @@
 import { SurveyModel } from '@/domain/models'
-import { setError, setReload, setSurveys, SurveysActions } from '@/presentation/store/context'
+import {
+  setError,
+  setReload,
+  setSurveys,
+  SurveysActions,
+} from '@/presentation/store/context/actions/surveys-actions'
 
 import React, { createContext, useContext, useReducer } from 'react'
 

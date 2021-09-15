@@ -40,9 +40,15 @@ export const mockSurveyResultModel = (): SurveyResult => ({
       answer: faker.random.word(),
       count: faker.datatype.number(),
       percent: faker.datatype.number(100),
+      isCurrentAccountAnswer: true,
+    },
+    {
+      answer: faker.random.word(),
+      count: faker.datatype.number(),
+      percent: faker.datatype.number(100),
+      isCurrentAccountAnswer: false,
     },
   ],
-  isCurrentAccountAnswer: faker.datatype.boolean(),
 })
 
 export const mockSurveyList = (): SurveyModel[] => [mockSurveyModel(), mockSurveyModel()]
