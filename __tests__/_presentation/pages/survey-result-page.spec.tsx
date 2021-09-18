@@ -1,5 +1,6 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { SurveyResultPage } from '@/presentation/pages'
+import { Answer } from '@/presentation/pages/survey-result/components'
 import { ApiProvider } from '@/presentation/store/context'
 
 import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/tests/_domain'
@@ -17,7 +18,7 @@ type SutTypes = {
 }
 
 const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
-  const history = createMemoryHistory()
+  const history = createMemoryHistory({ initialEntries: ['/', '/surveys/any_id'], initialIndex: 1 })
   const setCurrentAccountMock = jest.fn()
   render(
     <ApiProvider
@@ -63,8 +64,8 @@ describe('SurveyResult', () => {
     expect(screen.getByTestId('answers').childElementCount).toBe(2)
 
     const answersWraps = screen.queryAllByTestId('answer-wrap')
-    expect(answersWraps[0]).toHaveClass(SurveyResultPage.activeClass)
-    expect(answersWraps[1]).not.toHaveClass(SurveyResultPage.activeClass)
+    expect(answersWraps[0]).toHaveClass(Answer.activeClass)
+    expect(answersWraps[1]).not.toHaveClass(Answer.activeClass)
 
     const images = screen.queryAllByTestId('image')
     expect(images[0]).toHaveAttribute('src', surveyResult.answers[0].image)
@@ -114,5 +115,14 @@ describe('SurveyResult', () => {
 
     expect(loadSurveyResultSpy.callsCount).toBe(1)
     await waitFor(() => screen.getByTestId('content'))
+  })
+  test('should go to SurveyList on back button click', async () => {
+    const { history } = makeSut()
+
+    await waitFor(() => screen.getByTestId('content'))
+
+    userEvent.click(screen.getByTestId('back-button'))
+
+    expect(history.location.pathname).toBe('/')
   })
 })

@@ -16,55 +16,6 @@
     width: 100%;
     padding: 40px;
   }
-  &__hgroup {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  &__calendar {
-    width: 80px;
-    margin-right: 16px;
-  }
-  &__title {
-    color: $primaryDark;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  &__items {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-  }
-  &__item {
-    display: flex;
-    justify-content: space-between;
-    background-color: $white;
-    align-items: center;
-    padding: 16px;
-    border-radius: 8px;
-    color: $primaryDark;
-    margin-top: 16px;
-    &--active {
-      box-shadow: 0 0 3px 2px $primaryLight;
-    }
-    &-image {
-      width: 50px;
-      height: 50px;
-      margin-right: 16px;
-    }
-    &-answer {
-      flex-grow: 1;
-      margin-right: 16px;
-      font-size: 20px;
-    }
-    &-percentage {
-      font-size: 30px;
-    }
-  }
-  &__back-button {
-    margin-top: 24px;
-  }
   &__content:empty {
     position: relative;
     background-repeat: no-repeat;
@@ -95,26 +46,6 @@
 
 @media only screen and (max-width: 600px) {
   .c-survey-result {
-    &__title {
-      font-size: 20px;
-    }
-    &__time {
-      width: 60px;
-    }
-
-    &__item {
-      &-image {
-        width: 40px;
-        height: 40px;
-      }
-      &-answer {
-        font-size: 16px;
-      }
-      &-percentage {
-        font-size: 20px;
-      }
-    }
-
     &__content:empty {
       background-position: 40px 40px, 116px 50px, 116px 80px, 116px 110px, 40px 172px, 40px 264px,
         40px 352px;
