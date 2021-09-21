@@ -12,7 +12,7 @@
     "lint-staged": "lint-staged",
     "test": "jest --passWithNoTests --noStackTrace --runInBand --no-cache",
     "test:watch": "npm run test -- --watchAll",
-    "test:cypress": "cypress open",
+    "test:cypress": "cross-env CYPRESS_REMOTE_DEBUGGING_PORT=9222 cypress open",
     "test:cypress:run": "cypress run",
     "test:cypress:ci": "start-server-and-test dev:base http-get://localhost:3000 test:cypress:run",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -26,7 +26,9 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@cypress/webpack-preprocessor": "^5.9.0",
+    "@cypress/react": "^5.10.0",
+    "@cypress/webpack-dev-server": "^1.6.0",
+    "@cypress/webpack-preprocessor": "^5.9.1",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.5",
@@ -89,6 +91,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "express-history-api-fallback": "^2.2.1",
     "react": "^16.13.1",

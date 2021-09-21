@@ -1,4 +1,4 @@
-import { FormContextType } from '@/presentation/store/context/'
+import { FormContextType, ActionMap } from '@/presentation/store/context/'
 
 export enum FormActionsEnum {
   SET_IS_LOADING = 'SET_IS_LOADING',

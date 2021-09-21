@@ -12,7 +12,7 @@ export const Router = (): JSX.Element => {
         <Route path="/login" exact component={makeLogin} />
         <Route path="/signup" exact component={makeSignUp} />
         <PrivateRoute path="/" exact component={makeSurveysList} />
-        <Route path="/surveys/:id" exact component={makeSurveyResult} />
+        <PrivateRoute path="/surveys/:id" exact component={makeSurveyResult} />
       </Switch>
     </BrowserRouter>
   )

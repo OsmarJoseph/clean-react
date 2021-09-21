@@ -4,10 +4,11 @@
     {
       "type": "chrome",
       "request": "attach",
-      "name": "Attach to Chrome",
+      "name": "Attach to Cypress Chrome",
       "port": 9222,
-      "urlFilter": "http://localhost:3000/*",
-      "webRoot": "${workspaceFolder}"
+      "urlFilter": "http://localhost*",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
     }
   ]
 }

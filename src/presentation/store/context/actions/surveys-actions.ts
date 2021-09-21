@@ -1,4 +1,4 @@
-import { SurveysContextType } from '@/presentation/store/context/'
+import { SurveysContextType, ActionMap } from '@/presentation/store/context/'
 
 export enum SurveysActionsEnum {
   SET_SURVEYS = 'SET_SURVEYS',

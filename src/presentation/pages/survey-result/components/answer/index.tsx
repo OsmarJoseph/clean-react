@@ -20,7 +20,7 @@ export const Answer = Object.assign(
         <span className="c-result-answer__answer" data-testid="answer">
           {answer}
         </span>
-        <span className="c-result-answer__percentage" data-testid="percent ">
+        <span className="c-result-answer__percentage" data-testid="percent">
           {percent}%
         </span>
       </li>

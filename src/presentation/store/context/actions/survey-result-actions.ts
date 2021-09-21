@@ -1,4 +1,4 @@
-import { SurveyResultContextType } from '@/presentation/store/context/'
+import { SurveyResultContextType, ActionMap } from '@/presentation/store/context/'
 
 export enum SurveyResultActionsEnum {
   SET_SURVEY_RESULT = 'SET_SURVEY_RESULT',
