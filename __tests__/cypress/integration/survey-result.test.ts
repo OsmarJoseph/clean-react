@@ -1,5 +1,4 @@
 import { UnexpectedError } from '@/domain/errors'
-import { Answer } from '@/presentation/pages/survey-result/components'
 
 import { mockSurveyResultModel } from '@/tests/_domain'
 import { survey, mockAccountStorage, testUrl } from '@/tests/cypress'
@@ -47,7 +46,7 @@ describe('SurveyResult', () => {
 
     cy.getByTestId('answer-wrap')
       .eq(0)
-      .should('have.class', Answer.activeClass)
+      .should('have.class', 'c-result-answer--active')
       .find('image', { id: true })
       .should('have.attr', 'src', firstResult.image)
     cy.getByTestId('answer-wrap')
@@ -68,5 +67,13 @@ describe('SurveyResult', () => {
       .getByTestId('answer')
       .should('contain.text', secondResult.answer)
     cy.getByTestId('answer-wrap').eq(1).find('image', { id: true }).should('not.exist')
+  })
+
+  it('should go to SurveyList on back button click', () => {
+    cy.visit('')
+    survey.mockSuccessResultRequest()
+    cy.visit('/surveys/any_id')
+    cy.getByTestId('back-button').click()
+    testUrl('/')
   })
 })

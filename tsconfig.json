@@ -25,6 +25,6 @@
       "@/*": ["*"]
     }
   },
-  "include": ["src", "__tests__", "./**.ts", "webpack.dev.js"],
+  "include": ["src", "__tests__", "./**.ts"],
   "exclude": ["node_modules", "__tests__/cypress"]
 }

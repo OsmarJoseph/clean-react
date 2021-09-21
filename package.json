@@ -26,9 +26,6 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@cypress/react": "^5.10.0",
-    "@cypress/webpack-dev-server": "^1.6.0",
-    "@cypress/webpack-preprocessor": "^5.9.1",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.5",
@@ -92,6 +89,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
+    "cypress-webpack-preprocessor-v5": "^5.0.0-alpha.1",
     "express": "^4.17.1",
     "express-history-api-fallback": "^2.2.1",
     "react": "^16.13.1",
