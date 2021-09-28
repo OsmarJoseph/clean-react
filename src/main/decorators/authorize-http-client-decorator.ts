@@ -1,21 +1,23 @@
 import { AccountModel } from '@/domain/models'
-import { GetStorage, HttpGetClient, HttpResponse } from '@/data/protocols'
+import { GetStorage, HttpClient } from '@/data/protocols'
 import { accessTokenHeader, accountKey } from '@/constants'
 
-export class AuthorizeHttpGetClientDecorator<Constructor extends HttpGetClient.Constructor>
-  implements HttpGetClient<Constructor> {
+export class AuthorizeHttpClientDecorator<Constructor extends HttpClient.Constructor>
+  implements HttpClient<Constructor> {
   constructor(
     private readonly getStorage: GetStorage,
-    private readonly httpGetClient: HttpGetClient<Constructor>,
+    private readonly httpClient: HttpClient<Constructor>,
   ) {}
 
-  async get(params: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
+  async request(
+    request: HttpClient.Request<Constructor['request']>,
+  ): Promise<HttpClient.Response<Constructor['response']>> {
     const account: AccountModel = this.getStorage.get(accountKey)
 
     if (account?.accessToken) {
-      params.headers = { ...params.headers, [accessTokenHeader]: account.accessToken }
+      request.headers = { ...request.headers, [accessTokenHeader]: account.accessToken }
     }
 
-    return await this.httpGetClient.get(params)
+    return await this.httpClient.request(request)
   }
 }

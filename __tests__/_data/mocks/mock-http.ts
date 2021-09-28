@@ -1,42 +1,30 @@
-import { HttpGetClient, HttpPostClient, HttpResponse, HttpStatusCode } from '@/data/protocols'
+import { HttpStatusCode, HttpClient } from '@/data/protocols'
 
 import { mockObject } from '@/tests/helpers'
 
 import faker from 'faker'
 
-export const mockPostRequestParams = (): HttpPostClient.Params<{ body: object }> => ({
-  url: faker.internet.url(),
-  body: mockObject(),
-})
-export const mockGetRequestParams = (): HttpGetClient.Params => ({
+export const mockHttpRequest = (): HttpClient.Request<{
+  body: object
+  headers: Record<string, string>
+}> => ({
   url: faker.internet.url(),
   headers: mockObject(),
+  method: faker.random.arrayElement(['get', 'post', 'put', 'delete']),
+  body: mockObject(),
 })
 
-export class HttpPostClientSpy<Constructor extends HttpPostClient.Constructor>
-  implements HttpPostClient<Constructor> {
-  params: HttpPostClient.Params<Constructor['request']>
-  response: HttpResponse<Constructor['response']> = {
+export class HttpClientSpy<Constructor extends HttpClient.Constructor>
+  implements HttpClient<Constructor> {
+  params: HttpClient.Request<Constructor['request']>
+  response: HttpClient.Response<Constructor['response']> = {
     statusCode: HttpStatusCode.ok,
     body: {},
   }
 
-  async post(
-    params: HttpPostClient.Params<Constructor['request']>,
-  ): Promise<HttpResponse<Constructor['response']>> {
-    this.params = params
-    return this.response
-  }
-}
-export class HttpGetClientSpy<Constructor extends HttpGetClient.Constructor>
-  implements HttpGetClient<Constructor> {
-  params: HttpGetClient.Params
-  response: HttpResponse<Constructor['response']> = {
-    statusCode: HttpStatusCode.ok,
-    body: {},
-  }
-
-  async get(params: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
+  async request(
+    params: HttpClient.Request<Constructor['request']>,
+  ): Promise<HttpClient.Response<Constructor['response']>> {
     this.params = params
     return this.response
   }

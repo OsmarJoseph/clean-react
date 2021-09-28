@@ -1,51 +1,32 @@
-import {
-  HttpGetClient,
-  HttpPostClient,
-  HttpResponse,
-  HttpResponseConstructor,
-} from '@/data/protocols'
+import { HttpClient } from '@/data/protocols'
 
 import axios, { AxiosResponse } from 'axios'
 
-export class AxiosHttpPostClient<Constructor extends HttpPostClient.Constructor>
-  implements HttpPostClient<Constructor> {
-  async post({
+export class AxiosHttpClient<Constructor extends HttpClient.Constructor>
+  implements HttpClient<Constructor> {
+  async request({
     url,
     body,
-  }: HttpPostClient.Params<Constructor['request']>): Promise<
-    HttpResponse<Constructor['response']>
+    method,
+    headers,
+  }: HttpClient.Request<Constructor['request']>): Promise<
+    HttpClient.Response<Constructor['response']>
   > {
     let axiosResponse: AxiosResponse
 
     try {
-      axiosResponse = await axios.post(url, body)
+      axiosResponse = await axios.request({
+        url,
+        data: body,
+        method,
+        headers,
+      })
     } catch (error) {
       axiosResponse = error.response
     }
-    return adapt(axiosResponse)
-  }
-}
-export class AxiosHttpGetClient<Constructor extends HttpGetClient.Constructor>
-  implements HttpGetClient<Constructor> {
-  async get({
-    url,
-    headers,
-  }: HttpGetClient.Params): Promise<HttpResponse<Constructor['response']>> {
-    let axiosResponse: AxiosResponse
-
-    try {
-      axiosResponse = await axios.get(url, { headers })
-    } catch (error) {
-      axiosResponse = error.response
+    return {
+      statusCode: axiosResponse.status,
+      body: axiosResponse.data,
     }
-    return adapt(axiosResponse)
-  }
-}
-const adapt = <T extends HttpResponseConstructor>(
-  axiosResponse: AxiosResponse,
-): HttpResponse<T> => {
-  return {
-    statusCode: axiosResponse.status,
-    body: axiosResponse.data,
   }
 }

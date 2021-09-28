@@ -1,12 +1,12 @@
-import { HttpGetClient } from '@/data/protocols'
-import { AuthorizeHttpGetClientDecorator } from '@/main/decorators'
-import { makeLocalStorageAdapter, makeAxiosHttpGetClient } from '@/main/factories'
+import { HttpClient } from '@/data/protocols'
+import { AuthorizeHttpClientDecorator } from '@/main/decorators'
+import { makeLocalStorageAdapter, makeAxiosHttpClient } from '@/main/factories'
 
-export const makeAuthorizeHttpGetClientDecorator = <
-  Constructor extends HttpGetClient.Constructor
->(): HttpGetClient<Constructor> => {
-  return new AuthorizeHttpGetClientDecorator(
+export const makeAuthorizeHttpClientDecorator = <
+  Constructor extends HttpClient.Constructor
+>(): HttpClient<Constructor> => {
+  return new AuthorizeHttpClientDecorator(
     makeLocalStorageAdapter(),
-    makeAxiosHttpGetClient<Constructor>(),
+    makeAxiosHttpClient<Constructor>(),
   )
 }

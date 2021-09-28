@@ -1,17 +1,17 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { LoadSurveysList } from '@/domain/usecases'
-import { HttpGetClient, HttpStatusCode } from '@/data/protocols'
+import { HttpClient, HttpStatusCode } from '@/data/protocols'
 import { SurveyModel } from '@/domain/models'
 
 export class RemoteLoadSurveysList implements LoadSurveysList {
   constructor(
     private readonly url: string,
-    private readonly httpGetClient: HttpGetClient<RemoteLoadSurveysList.Client>,
+    private readonly httpClient: HttpClient<RemoteLoadSurveysList.Client>,
   ) {}
 
   async loadAll(): Promise<LoadSurveysList.Result> {
-    const { httpGetClient, url } = this
-    const httpResponse = await httpGetClient.get({ url })
+    const { httpClient, url } = this
+    const httpResponse = await httpClient.request({ url, method: 'get' })
     const remoteSurveys = this.mapSurveys(httpResponse.body)
 
     switch (httpResponse.statusCode) {
@@ -45,12 +45,11 @@ export class RemoteLoadSurveysList implements LoadSurveysList {
 }
 
 export namespace RemoteLoadSurveysList {
-  export type Client = ClientResponse
-  export type ClientResponse = {
+  export type Client = {
     response: {
       body: ClientModel[]
     }
-  }
+  } & HttpClient.Constructor
   export type ClientModel = {
     id: string
     question: string
