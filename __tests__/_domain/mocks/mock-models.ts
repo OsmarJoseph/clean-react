@@ -1,11 +1,15 @@
 import { AccountModel, SurveyModel, SurveyResult } from '@/domain/models'
-import { AddAccount, Authentication } from '@/domain/usecases'
+import { AddAccount, Authentication, SaveSurveyResult } from '@/domain/usecases'
 
 import faker from 'faker'
 
 export const mockAuthenticationParams = (): Authentication.Params => ({
   email: faker.internet.email(),
   password: faker.internet.password(),
+})
+
+export const mockSaveSurveyResultParams = (): SaveSurveyResult.Params => ({
+  answer: faker.random.word(),
 })
 
 export const mockAddAccountParams = (): AddAccount.Params => {

@@ -15,7 +15,7 @@ export const mockRemoteLoadSurveysListClientModelList = (): RemoteLoadSurveysLis
   mockRemoteLoadSurveysListClientModel(),
 ]
 
-export const mockRemoteLoadSurveyResultClientModelList = (): RemoteLoadSurveyResult.ClientModel => ({
+export const mockRemoteSurveyResultModel = (): RemoteLoadSurveyResult.ClientModel => ({
   question: faker.random.words(),
   date: faker.date.recent().toISOString(),
   answers: [
