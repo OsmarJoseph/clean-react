@@ -1,7 +1,8 @@
 import './styles.scss'
-
-import React from 'react'
 import { ResultAnswer } from '@/domain/models'
+import { useSurveyResultContext } from '@/presentation/store/context'
+
+import React, { useCallback } from 'react'
 
 type Props = { answer: ResultAnswer }
 
@@ -9,9 +10,17 @@ const activeClass = 'c-result-answer--active'
 
 export const Answer = Object.assign(
   ({ answer: { image, answer, percent, isCurrentAccountAnswer } }: Props): JSX.Element => {
+    const { isLoading, onAnswer } = useSurveyResultContext()
+
+    const handleClick = useCallback(() => {
+      if (isCurrentAccountAnswer || isLoading) return
+      onAnswer(answer)
+    }, [isLoading])
+
     return (
       <li
         className={`c-result-answer ${isCurrentAccountAnswer ? activeClass : ''}`}
+        onClick={handleClick}
         data-testid="answer-wrap"
       >
         {image && (

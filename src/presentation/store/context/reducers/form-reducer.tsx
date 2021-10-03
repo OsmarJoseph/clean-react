@@ -29,13 +29,13 @@ export type FormContextType = {
   setIsFormValid: (value: boolean) => void
 }
 
-export const formInitialState = {
+export const formInitialState: FormContextType = {
   isLoading: false,
-  setIsLoading: (value: boolean) => value,
+  setIsLoading: () => null,
   errorMessage: '',
-  setErrorMessage: (value: string) => value,
+  setErrorMessage: () => null,
   inputValues: { name: '', email: '', password: '', passwordConfirmation: '' },
-  setInputValues: (value: FormContextType['inputValues']) => value,
+  setInputValues: () => null,
   inputErrors: {
     name: 'Campo obrigatório',
     email: 'Campo obrigatório',
@@ -43,8 +43,8 @@ export const formInitialState = {
     passwordConfirmation: 'Campo obrigatório',
   },
   isFormValid: false,
-  setInputErrors: (value: FormContextType['inputErrors']) => value,
-  setIsFormValid: (value: boolean) => value,
+  setInputErrors: () => null,
+  setIsFormValid: () => null,
 }
 
 const FormContext = createContext<FormContextType>(formInitialState)

@@ -1,10 +1,11 @@
-import { SurveyResult } from '@/domain/models'
+import { ResultAnswer, SurveyResult } from '@/domain/models'
 import {
   setError,
   setIsLoading,
   setSurveyResult,
   SurveyResultActions,
   setReload,
+  setOnAnswer,
 } from '@/presentation/store/context/actions/survey-result-actions'
 
 import React, { createContext, useContext, useReducer } from 'react'
@@ -15,20 +16,24 @@ export type SurveyResultContextType = {
   error: Error | undefined
   setError: (error: Error) => void
   isLoading: boolean
-  setIsLoading: (isLoading: boolean) => void
+  setIsLoading: (isLoading?: boolean) => void
   reload: boolean
   setReload: (reload: boolean) => void
+  onAnswer: (answer: ResultAnswer['answer']) => void
+  setOnAnswer: (onAnswer: SurveyResultContextType['onAnswer']) => () => void
 }
 
 export const surveyResultInitialState: SurveyResultContextType = {
   surveyResult: null as SurveyResult,
-  setSurveyResult: (surveyResult: SurveyResult) => surveyResult,
+  setSurveyResult: () => null,
   error: undefined,
-  setError: (error: Error) => error,
+  setError: () => null,
   isLoading: false,
-  setIsLoading: (isLoading: boolean) => isLoading,
+  setIsLoading: () => null,
   reload: false,
-  setReload: (reload: boolean) => reload,
+  setReload: () => null,
+  onAnswer: () => null,
+  setOnAnswer: () => null,
 }
 
 export const SurveyResultReducer = (
@@ -44,6 +49,8 @@ export const SurveyResultReducer = (
       return { ...state, isLoading: action.payload.isLoading }
     case 'SET_RELOAD':
       return { ...state, reload: action.payload.reload }
+    case 'SET_ON_ANSWER':
+      return { ...state, onAnswer: action.payload.onAnswer }
   }
 }
 
@@ -60,6 +67,8 @@ export function SurveyResultProvider({ children }: { children: JSX.Element }): J
     setIsLoading: setIsLoading(dispatch),
     reload: state.reload,
     setReload: setReload(dispatch),
+    onAnswer: state.onAnswer,
+    setOnAnswer: setOnAnswer(dispatch),
   }
   return <SurveyResultContext.Provider value={value}>{children}</SurveyResultContext.Provider>
 }

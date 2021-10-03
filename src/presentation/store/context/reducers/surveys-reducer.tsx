@@ -19,11 +19,11 @@ export type SurveysContextType = {
 
 export const surveysInitialState: SurveysContextType = {
   surveys: [],
-  setSurveys: (surveys: SurveyModel[]) => surveys,
+  setSurveys: () => null,
   error: undefined,
-  setError: (error: Error) => error,
+  setError: () => null,
   reload: false,
-  setReload: (reload: boolean) => reload,
+  setReload: () => null,
 }
 
 export const SurveysReducer = (

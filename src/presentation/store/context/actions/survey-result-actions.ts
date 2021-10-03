@@ -5,6 +5,7 @@ export enum SurveyResultActionsEnum {
   SET_ERROR = 'SET_ERROR',
   SET_IS_LOADING = 'SET_IS_LOADING',
   SET_RELOAD = 'SET_RELOAD',
+  SET_ON_ANSWER = 'SET_ON_ANSWER',
 }
 
 type SurveyResultPayload = {
@@ -19,6 +20,9 @@ type SurveyResultPayload = {
   }
   [SurveyResultActionsEnum.SET_RELOAD]: {
     reload: SurveyResultContextType['reload']
+  }
+  [SurveyResultActionsEnum.SET_ON_ANSWER]: {
+    onAnswer: SurveyResultContextType['onAnswer']
   }
 }
 
@@ -56,5 +60,13 @@ export const setReload = (dispatch: React.Dispatch<SurveyResultActions>) => (
   dispatch({
     type: SurveyResultActionsEnum.SET_RELOAD,
     payload: { reload: value },
+  })
+}
+export const setOnAnswer = (dispatch: React.Dispatch<SurveyResultActions>) => (
+  value: SurveyResultContextType['onAnswer'],
+) => () => {
+  dispatch({
+    type: SurveyResultActionsEnum.SET_ON_ANSWER,
+    payload: { onAnswer: value },
   })
 }

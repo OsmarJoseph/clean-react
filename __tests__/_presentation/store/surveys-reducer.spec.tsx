@@ -6,10 +6,8 @@ import faker from 'faker'
 
 describe('SurveysReducer', () => {
   test('should return correct initial state values', () => {
-    expect(surveysInitialState.setError(new Error())).toEqual(new Error())
-    const reloadValue = faker.datatype.boolean()
-    expect(surveysInitialState.setReload(reloadValue)).toBe(reloadValue)
-    const surveys = mockSurveyList()
-    expect(surveysInitialState.setSurveys(surveys)).toEqual(surveys)
+    expect(surveysInitialState.setError(new Error())).toBeNull()
+    expect(surveysInitialState.setReload(faker.datatype.boolean())).toBeNull()
+    expect(surveysInitialState.setSurveys(mockSurveyList())).toBeNull()
   })
 })

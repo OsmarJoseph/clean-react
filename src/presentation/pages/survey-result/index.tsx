@@ -1,5 +1,5 @@
 import './styles.scss'
-import { LoadSurveyResult } from '@/domain/usecases'
+import { LoadSurveyResult, SaveSurveyResult } from '@/domain/usecases'
 import { SurveyResultProvider, useSurveyResultContext } from '@/presentation/store/context'
 import { SurveyResult } from '@/presentation/pages/survey-result/components'
 import { Error, Footer, Header, Loading } from '@/presentation/components'
@@ -10,11 +10,13 @@ import React, { useCallback, useEffect } from 'react'
 
 type Props = {
   loadSurveyResult: LoadSurveyResult
+  saveSurveyResult: SaveSurveyResult
 }
 
 export const SurveyResultPage = withProvider(SurveyResultProvider)<Props>(
-  ({ loadSurveyResult }: Props): JSX.Element => {
+  ({ loadSurveyResult, saveSurveyResult }: Props): JSX.Element => {
     const {
+      setIsLoading,
       isLoading,
       error,
       surveyResult,
@@ -22,15 +24,31 @@ export const SurveyResultPage = withProvider(SurveyResultProvider)<Props>(
       setError,
       reload,
       setReload,
+      setOnAnswer,
     } = useSurveyResultContext()
 
-    const handleError = useErrorHandler(setError)
+    const handleError = useErrorHandler((error) => {
+      setSurveyResult(null)
+      setError(error)
+    })
 
     useEffect(
       function loadSurveysResult() {
-        loadSurveyResult.load().then(setSurveyResult, handleError).catch(handleError)
+        loadSurveyResult.load().then(setSurveyResult).catch(handleError).finally(setIsLoading)
       },
       [reload],
+    )
+
+    useEffect(
+      setOnAnswer((answer) => {
+        setIsLoading(true)
+        saveSurveyResult
+          .save({ answer })
+          .then(setSurveyResult)
+          .catch(handleError)
+          .finally(setIsLoading)
+      }),
+      [],
     )
 
     const handleReloadClick = useCallback(() => {

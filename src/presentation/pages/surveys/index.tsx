@@ -17,7 +17,7 @@ const SurveysListPageComponent = ({ loadSurveysList }: Props): JSX.Element => {
   const handleError = useErrorHandler(setError)
 
   useEffect(() => {
-    loadSurveysList.loadAll().then(setSurveys, handleError).catch(handleError)
+    loadSurveysList.loadAll().then(setSurveys).catch(handleError)
   }, [reload])
 
   const handleReloadClick = useCallback(() => {
