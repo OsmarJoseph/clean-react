@@ -4,7 +4,6 @@ import { Answer } from '@/presentation/pages/survey-result/components'
 import { useSurveyResultContext } from '@/presentation/store/context'
 
 import React, { Fragment } from 'react'
-import FlipMove from 'react-flip-move'
 import { useHistory } from 'react-router-dom'
 
 export const SurveyResult = (): JSX.Element => {
@@ -19,13 +18,13 @@ export const SurveyResult = (): JSX.Element => {
           {surveyResult.question}
         </h2>
       </hgroup>
-      <FlipMove className="c-result__items" data-testid="answers">
+      <ul className="c-result__items" data-testid="answers">
         <Fragment>
           {surveyResult.answers.map((answer, index) => (
             <Answer answer={answer} key={index} />
           ))}
         </Fragment>
-      </FlipMove>
+      </ul>
       <button className="c-result__back-button" onClick={goBack} data-testid="back-button">
         Voltar
       </button>

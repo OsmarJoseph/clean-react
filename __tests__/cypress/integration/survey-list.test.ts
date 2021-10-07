@@ -8,13 +8,13 @@ describe('SurveyList', () => {
     mockAccountStorage()
   })
   it('should present error on UnexpectedError', () => {
-    survey.mockUnexpectedError()
+    survey.mockGetUnexpectedError()
     cy.visit('/')
 
     cy.getByTestId('error').should('contain.text', UnexpectedError.message)
   })
   it('should reload on button click', () => {
-    survey.mockUnexpectedError()
+    survey.mockGetUnexpectedError()
     cy.visit('/')
     cy.getByTestId('error').should('contain.text', UnexpectedError.message)
     survey.mockSuccessListRequest()
@@ -22,13 +22,13 @@ describe('SurveyList', () => {
     cy.getByTestId('survey-item').should('have.length', mockSurveyList().length)
   })
   it('should logout on AccessDeniedError', () => {
-    survey.mockAccessDeniedError()
+    survey.mockGetAccessDeniedError()
     cy.visit('/')
 
     testUrl('/login')
   })
   it('should presente correct user name', () => {
-    survey.mockUnexpectedError()
+    survey.mockGetUnexpectedError()
     cy.visit('/')
 
     const { name } = getAccountStorage()
