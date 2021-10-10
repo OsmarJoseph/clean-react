@@ -41,13 +41,13 @@ export const mockSurveyResultModel = (): SurveyResult => ({
   answers: [
     {
       image: faker.image.imageUrl(),
-      answer: faker.random.word(),
+      answer: 'first_answer',
       count: faker.datatype.number(),
       percent: faker.datatype.number(100),
       isCurrentAccountAnswer: true,
     },
     {
-      answer: faker.random.word(),
+      answer: 'second_answer',
       count: faker.datatype.number(),
       percent: faker.datatype.number(100),
       isCurrentAccountAnswer: false,
