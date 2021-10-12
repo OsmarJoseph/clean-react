@@ -1,26 +1,19 @@
+import { AccountModel } from '@/domain/models'
 import { SaveSurveyResult } from '@/domain/usecases'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { SurveyResultPage } from '@/presentation/pages'
 import { Answer } from '@/presentation/pages/survey-result/components'
-import { ApiProvider } from '@/presentation/store/context'
 
-import {
-  LoadSurveyResultSpy,
-  mockAccountModel,
-  mockSurveyResultModel,
-  SaveSurveyResultSpy,
-} from '@/tests/_domain'
+import { LoadSurveyResultSpy, mockSurveyResultModel, SaveSurveyResultSpy } from '@/tests/_domain'
+import { renderWithHistory } from '@/tests/_presentation'
 
-import React from 'react'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 type SutTypes = {
   history: MemoryHistory<unknown>
-
-  setCurrentAccountMock: jest.Mock<any, any>
+  setCurrentAccountMock: (account: AccountModel) => void
 } & Spies
 
 type SutParams = Spies
@@ -35,21 +28,14 @@ const makeSut = ({
   saveSurveyResultSpy = new SaveSurveyResultSpy(),
 }: SutParams = {}): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/', '/surveys/any_id'], initialIndex: 1 })
-  const setCurrentAccountMock = jest.fn()
-  render(
-    <ApiProvider
-      setCurrentAccount={setCurrentAccountMock}
-      getCurrentAccount={() => mockAccountModel()}
-    >
-      <Router history={history}>
-        <SurveyResultPage
-          loadSurveyResult={loadSurveyResultSpy}
-          saveSurveyResult={saveSurveyResultSpy}
-        />
-        )
-      </Router>
-    </ApiProvider>,
-  )
+  const { setCurrentAccountMock } = renderWithHistory({
+    component: () =>
+      SurveyResultPage({
+        loadSurveyResult: loadSurveyResultSpy,
+        saveSurveyResult: saveSurveyResultSpy,
+      }),
+    history,
+  })
   return { history, loadSurveyResultSpy, saveSurveyResultSpy, setCurrentAccountMock }
 }
 

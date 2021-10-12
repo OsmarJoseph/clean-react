@@ -1,14 +1,12 @@
 import { AccountModel } from '@/domain/models'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { SurveysListPage } from '@/presentation/pages'
-import { ApiProvider } from '@/presentation/store/context'
 
-import { LoadSurveysListSpy, mockAccountModel } from '@/tests/_domain'
+import { LoadSurveysListSpy } from '@/tests/_domain'
+import { renderWithHistory } from '@/tests/_presentation'
 
-import React from 'react'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 type SutTypes = {
@@ -19,18 +17,10 @@ type SutTypes = {
 
 const makeSut = (loadSurveysListSpy = new LoadSurveysListSpy()): SutTypes => {
   const history = createMemoryHistory()
-  const setCurrentAccountMock = jest.fn()
-
-  render(
-    <ApiProvider
-      setCurrentAccount={setCurrentAccountMock}
-      getCurrentAccount={() => mockAccountModel()}
-    >
-      <Router history={history}>
-        <SurveysListPage loadSurveysList={loadSurveysListSpy} />)
-      </Router>
-    </ApiProvider>,
-  )
+  const { setCurrentAccountMock } = renderWithHistory({
+    component: () => SurveysListPage({ loadSurveysList: loadSurveysListSpy }),
+    history,
+  })
   return { loadSurveysListSpy, history, setCurrentAccountMock }
 }
 

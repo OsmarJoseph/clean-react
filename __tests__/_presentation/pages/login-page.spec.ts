@@ -1,17 +1,15 @@
+import { AccountModel } from '@/domain/models'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
 import { LoginPage } from '@/presentation/pages'
 
 import { AuthenticationSpy } from '@/tests/_domain'
-import { ValidationStub } from '@/tests/_presentation'
+import { ValidationStub, renderWithHistory } from '@/tests/_presentation'
 import { Helper, throwError } from '@/tests/helpers'
 
-import React from 'react'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import { fireEvent, render, waitFor, screen, act } from '@testing-library/react'
+import { fireEvent, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import faker from 'faker'
-import { ApiProvider } from '@/presentation/store/context'
 
 type SutParams = {
   validationError: string
@@ -19,7 +17,7 @@ type SutParams = {
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock: jest.Mock<any, any>
+  setCurrentAccountMock: (account: AccountModel) => void
 }
 
 const history = createMemoryHistory({ initialEntries: ['/login'] })
@@ -27,15 +25,11 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (sutParams?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
-  const setCurrentAccountMock = jest.fn()
   validationStub.result = sutParams?.validationError
-  render(
-    <ApiProvider setCurrentAccount={setCurrentAccountMock} getCurrentAccount={jest.fn()}>
-      <Router history={history}>
-        <LoginPage validation={validationStub} authentication={authenticationSpy} />
-      </Router>
-    </ApiProvider>,
-  )
+  const { setCurrentAccountMock } = renderWithHistory({
+    component: () => LoginPage({ validation: validationStub, authentication: authenticationSpy }),
+    history,
+  })
   return {
     authenticationSpy,
     setCurrentAccountMock,
@@ -171,10 +165,10 @@ describe('LoginPage', () => {
     expect(history.location.pathname).toBe('/')
   })
   test('should present error if SaveCurrentAccount fails', async () => {
-    const { setCurrentAccountMock } = makeSut()
+    const { authenticationSpy } = makeSut()
     const error = new UnexpectedError()
 
-    setCurrentAccountMock.mockImplementationOnce(throwError(error))
+    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError(error))
 
     simulateValidSubmit()
     clickSubmit()
