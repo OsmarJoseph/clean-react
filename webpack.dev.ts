@@ -1,7 +1,6 @@
 import { common, Configuration } from './webpack.common'
 
 import * as path from 'path'
-import { HotModuleReplacementPlugin } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import sass from 'sass'
@@ -11,7 +10,9 @@ const config: Configuration = merge(common, {
   mode: 'development',
   target: 'web',
   devServer: {
-    contentBase: './public',
+    static: {
+      directory: path.resolve('public'),
+    },
     historyApiFallback: true,
     hot: true,
     port: 3000,
@@ -54,7 +55,6 @@ const config: Configuration = merge(common, {
     new HtmlWebpackPlugin({
       template: path.resolve('public', 'template.dev.html'),
     }),
-    new HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),

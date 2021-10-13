@@ -11,7 +11,6 @@ const config: Configuration = merge(common, {
   mode: 'production',
   target: 'browserslist',
   output: {
-    path: path.resolve('dist'),
     filename: 'main-bundle-[fullhash].js',
     publicPath: './',
   },

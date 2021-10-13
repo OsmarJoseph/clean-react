@@ -11,6 +11,9 @@ export interface Configuration extends WebpackConfiguration {
 
 export const common: Configuration = {
   entry: path.resolve('src', 'main', 'index.tsx'),
+  output: {
+    path: path.resolve('dist'),
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     plugins: [new TsconfigPathsPlugin()],
