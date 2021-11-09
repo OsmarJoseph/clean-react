@@ -15,7 +15,8 @@ export const mockHttpRequest = (): HttpClient.Request<{
 })
 
 export class HttpClientSpy<Constructor extends HttpClient.Constructor>
-  implements HttpClient<Constructor> {
+  implements HttpClient<Constructor>
+{
   params: HttpClient.Request<Constructor['request']>
   response: HttpClient.Response<Constructor['response']> = {
     statusCode: HttpStatusCode.ok,

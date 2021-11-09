@@ -20,28 +20,25 @@ type SurveysPayload = {
 
 export type SurveysActions = ActionMap<SurveysPayload>[keyof ActionMap<SurveysPayload>]
 
-export const setSurveys = (dispatch: React.Dispatch<SurveysActions>) => (
-  value: SurveysContextType['surveys'],
-) => {
-  dispatch({
-    type: SurveysActionsEnum.SET_SURVEYS,
-    payload: { surveys: value },
-  })
-}
+export const setSurveys =
+  (dispatch: React.Dispatch<SurveysActions>) => (value: SurveysContextType['surveys']) => {
+    dispatch({
+      type: SurveysActionsEnum.SET_SURVEYS,
+      payload: { surveys: value },
+    })
+  }
 
-export const setError = (dispatch: React.Dispatch<SurveysActions>) => (
-  value: SurveysContextType['error'],
-) => {
-  dispatch({
-    type: SurveysActionsEnum.SET_ERROR,
-    payload: { error: value },
-  })
-}
-export const setReload = (dispatch: React.Dispatch<SurveysActions>) => (
-  value: SurveysContextType['reload'],
-) => {
-  dispatch({
-    type: SurveysActionsEnum.SET_RELOAD,
-    payload: { reload: value },
-  })
-}
+export const setError =
+  (dispatch: React.Dispatch<SurveysActions>) => (value: SurveysContextType['error']) => {
+    dispatch({
+      type: SurveysActionsEnum.SET_ERROR,
+      payload: { error: value },
+    })
+  }
+export const setReload =
+  (dispatch: React.Dispatch<SurveysActions>) => (value: SurveysContextType['reload']) => {
+    dispatch({
+      type: SurveysActionsEnum.SET_RELOAD,
+      payload: { reload: value },
+    })
+  }

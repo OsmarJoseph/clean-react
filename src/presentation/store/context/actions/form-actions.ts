@@ -28,48 +28,43 @@ type FormPayload = {
 
 export type FormActions = ActionMap<FormPayload>[keyof ActionMap<FormPayload>]
 
-export const setIsLoading = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['isLoading'],
-) => {
-  dispatch({
-    type: FormActionsEnum.SET_IS_LOADING,
-    payload: { isLoading: value },
-  })
-}
+export const setIsLoading =
+  (dispatch: React.Dispatch<FormActions>) => (value: FormContextType['isLoading']) => {
+    dispatch({
+      type: FormActionsEnum.SET_IS_LOADING,
+      payload: { isLoading: value },
+    })
+  }
 
-export const setErrorMessage = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['errorMessage'],
-) => {
-  dispatch({
-    type: FormActionsEnum.SET_ERROR_MESSAGE,
-    payload: { errorMessage: value },
-  })
-}
+export const setErrorMessage =
+  (dispatch: React.Dispatch<FormActions>) => (value: FormContextType['errorMessage']) => {
+    dispatch({
+      type: FormActionsEnum.SET_ERROR_MESSAGE,
+      payload: { errorMessage: value },
+    })
+  }
 
-export const setInputErrors = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['inputErrors'],
-) => {
-  dispatch({
-    type: FormActionsEnum.SET_INPUT_ERRORS,
-    payload: { inputErrors: value },
-  })
-}
-export const setInputValues = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['inputValues'],
-) => {
-  dispatch({
-    type: FormActionsEnum.SET_INPUT_VALUES,
-    payload: { inputValues: value },
-  })
-}
-export const setIsFormValid = (dispatch: React.Dispatch<FormActions>) => (
-  value: FormContextType['isFormValid'],
-) => {
-  dispatch({
-    type: FormActionsEnum.SET_IS_FORM_VALID,
-    payload: { isFormValid: value },
-  })
-}
+export const setInputErrors =
+  (dispatch: React.Dispatch<FormActions>) => (value: FormContextType['inputErrors']) => {
+    dispatch({
+      type: FormActionsEnum.SET_INPUT_ERRORS,
+      payload: { inputErrors: value },
+    })
+  }
+export const setInputValues =
+  (dispatch: React.Dispatch<FormActions>) => (value: FormContextType['inputValues']) => {
+    dispatch({
+      type: FormActionsEnum.SET_INPUT_VALUES,
+      payload: { inputValues: value },
+    })
+  }
+export const setIsFormValid =
+  (dispatch: React.Dispatch<FormActions>) => (value: FormContextType['isFormValid']) => {
+    dispatch({
+      type: FormActionsEnum.SET_IS_FORM_VALID,
+      payload: { isFormValid: value },
+    })
+  }
 
 export const FormReducer = (state: FormContextType, action: FormActions): FormContextType => {
   switch (action.type) {

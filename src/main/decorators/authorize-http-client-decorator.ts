@@ -3,7 +3,8 @@ import { GetStorage, HttpClient } from '@/data/protocols'
 import { accessTokenHeader, accountKey } from '@/constants'
 
 export class AuthorizeHttpClientDecorator<Constructor extends HttpClient.Constructor>
-  implements HttpClient<Constructor> {
+  implements HttpClient<Constructor>
+{
   constructor(
     private readonly getStorage: GetStorage,
     private readonly httpClient: HttpClient<Constructor>,

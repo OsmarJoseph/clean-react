@@ -3,7 +3,7 @@ import { AuthorizeHttpClientDecorator } from '@/main/decorators'
 import { makeLocalStorageAdapter, makeAxiosHttpClient } from '@/main/factories'
 
 export const makeAuthorizeHttpClientDecorator = <
-  Constructor extends HttpClient.Constructor
+  Constructor extends HttpClient.Constructor,
 >(): HttpClient<Constructor> => {
   return new AuthorizeHttpClientDecorator(
     makeLocalStorageAdapter(),

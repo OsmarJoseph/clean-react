@@ -3,7 +3,8 @@ import { HttpClient } from '@/data/protocols'
 import axios, { AxiosResponse } from 'axios'
 
 export class AxiosHttpClient<Constructor extends HttpClient.Constructor>
-  implements HttpClient<Constructor> {
+  implements HttpClient<Constructor>
+{
   async request({
     url,
     body,
